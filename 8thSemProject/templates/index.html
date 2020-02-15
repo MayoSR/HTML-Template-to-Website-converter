@@ -1,0 +1,116 @@
+<html>
+	<head>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+	<!-- jQuery library -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+	<!-- Latest compiled JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+	
+	<!-- <link rel="stylesheet" href="{{ url_for('static', filename = 'styles/index.css') }}"> -->
+		<style>
+
+			body,
+			html {
+				margin: 0px;
+				padding: 0px;
+				background: #828282;
+			}
+
+			#main-container {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				height: 100vh;
+				width: 80vh;
+				background: #f5f5f5;
+				padding:40px;
+			}
+
+			#preview {
+				padding: 20px 0px;
+				height: 500px;
+				width: 100%;
+			}
+
+
+			#full-container {
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+			}
+
+			#form-body {
+				position: relative;
+				display: flex;
+				justify-content: center;
+				width: 100%;
+			}
+
+			#button-tray{
+				display: flex;
+				justify-content: space-between;
+				flex-direction: row;
+				width:100%;
+				margin-top:10px;
+			}
+
+			#button-tray input,button{
+				width:200px;
+			}
+
+			#form-body form{
+				width: 100%;
+			}
+
+			.file-overlay{
+				position: relative;
+			}
+
+			#file-btn{
+				position: absolute;
+				top:0px;
+				left:0px;
+				
+			}
+
+			#cf{
+				position: relative;
+				z-index:2;
+				pointer-events: none;
+			}
+
+			#img-preview{
+				padding:0px;
+			}
+
+		</style>
+	</head>
+	<body>
+		<div id="main-container" class="container-fluid">
+			<div id="full-container">
+				<div class="container-fluid" id="img-preview">
+					<img src="{{url_for('static', filename='images/placeholder.jpg')}}" class="img-responsive" id="preview">
+				</div>
+				<div id="form-body">
+					<form action="/sendfile" method="post" enctype="multipart/form-data">
+						<div id="button-tray">
+							<div class="file-overlay">
+								<button class="btn btn-primary" id="cf">Choose File</button>			
+								<input type="file" name="uploaded-file" id="file-btn">
+							</div>
+							<button class="btn btn-primary" id="previewframe">Preview</button>
+							<input id="sbt" class="btn btn-primary"  value="Submit">
+						</div>
+						
+					</form>
+				</div>
+				
+			</div>
+			
+		</div>
+		<script src="{{ url_for('static', filename = 'scripts/index.js') }}"></script>
+	</body>
+</html>
