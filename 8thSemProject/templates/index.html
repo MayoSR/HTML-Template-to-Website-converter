@@ -137,10 +137,24 @@
 				color:#eeeeee;
 			}
 
-			#iframe-container{
+			#super-frame{
 				border:1px solid rgba(0,0,0,0.4);
+				position: relative;
 				background:#222831;
 				width:35%;
+			}
+
+			#iframe-container-overlay{
+				position: absolute;
+				top:0px;
+				left:0px;
+				right:0px;
+				bottom:0px;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				z-index:2;
+				background:#222831;
 			}
 
 			.btn-primary{
@@ -197,9 +211,15 @@
 						<span class="glyphicon glyphicon-menu-right"></span>
 						<span class="glyphicon glyphicon-menu-right"></span>
 					</div>
-					<div id="iframe-container">
-						<iframe frameborder="0" id="gen-frame" src="{{url_for('static', filename='sample.html')}}"></iframe>
+					<div id="super-frame">
+						<div id="iframe-container-overlay">
+							<p id="preview" class="glyphicon glyphicon-download-alt"></p> 
+						</div>
+						<div id="iframe-container-under">
+							<iframe frameborder="0" id="gen-frame" src="{{url_for('static', filename='sample.html')}}"></iframe>
+						</div>
 					</div>
+					
 				</div>
 
 			</div>
