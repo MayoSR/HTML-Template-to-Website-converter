@@ -162,14 +162,12 @@ class SVMfactory:
             
     def load_model(self):
 
-        try:
+        
             
-            with open(os.path.join(os.path.join(os.path.dirname( __file__ ), '..', 'models','SVM.pkl')), 'rb') as f:
-                self.clf = pickle.load(f)
-                print(Fore.GREEN + "Model has been loaded")
-        except Exception as e:
-            print("Error occured")
-            print(e)
+        with open(os.path.join(os.path.join(os.path.dirname( __file__ ), '..', 'models','SVM.pkl')), 'rb') as f:
+            self.clf = pickle.load(f)
+            print(Fore.GREEN + "Model has been loaded")
+        
 
 try:
     svm = SVMfactory(True)
