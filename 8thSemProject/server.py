@@ -1,4 +1,6 @@
 from flask import Flask, request,render_template
+from modules.objectdetection import split_images
+from modules.SVM import make_prediction
 import os
 app = Flask(__name__, static_url_path='')
 
@@ -10,11 +12,12 @@ def root():
 
 @app.route('/sendfile', methods=['POST'])
 def get_file():
-    print(request.files)
     latestfile = request.files['uploaded-file']
-    full_filename = os.path.join(app.config['UPLOAD_FOLDER'], "generatedpage.jpg")
+    full_filename = os.path.join(app.config['UPLOAD_FOLDER'], "newimage.jpg")
     latestfile.save(full_filename)
-    return 'file uploaded successfully'
+    split_images()
+    make_prediction()
+    return 'File uploaded successfully'
 
 @app.route('/generatedpage')
 def get_page():

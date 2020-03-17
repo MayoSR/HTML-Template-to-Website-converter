@@ -143,11 +143,21 @@ class SVMfactory:
     
     def predict_images(self):
         
+        file_name= []
+        
         for file in os.listdir("samples"):
+            if file == "content.jpg":
+                continue
             self.image_process(os.path.join("samples",file))
             img = skimage.io.imread(os.path.join("samples",file))
             img_resized = resize(img, self.dimension, anti_aliasing=True, mode='reflect')
             self.samp_data.append(img_resized.flatten())
+            file_name.append(file)
+            
+        fitr = 0
+        for i in list(self.clf.predict(self.samp_data)):
+            print(file_name[fitr],SVMfactory.mapper[i])
+            fitr+=1
 
     
     def save_model(self):
@@ -161,22 +171,21 @@ class SVMfactory:
             print(e)
             
     def load_model(self):
-
-        
-            
         with open(os.path.join(os.path.join(os.path.dirname( __file__ ), '..', 'models','SVM.pkl')), 'rb') as f:
             self.clf = pickle.load(f)
             print(Fore.GREEN + "Model has been loaded")
         
 
-try:
-    svm = SVMfactory(True)
-    svm.load_model()
-    print("Model was loaded successfully")    
-except:
-    print("Error occured, model does not exist or is damaged. Preparing new model...")    
-    svm = SVMfactory()
-    svm.test_train_split()
-    svm.train_and_fit()
-    svm.display_svm_scores()
-    svm.save_model()
+def make_prediction():
+    try:
+        svm = SVMfactory(True)
+        svm.load_model()
+        svm.predict_images()
+        print("Model was loaded successfully")    
+    except:
+        print("Error occured, model does not exist or is damaged. Preparing new model...")
+        svm = SVMfactory()
+        svm.test_train_split()
+        svm.train_and_fit()
+        svm.display_svm_scores()
+        svm.save_model()
