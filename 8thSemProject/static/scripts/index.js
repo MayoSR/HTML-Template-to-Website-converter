@@ -28,6 +28,7 @@ document.getElementById("sbt").addEventListener("click",(e)=>{
     xhr.onreadystatechange = function(){
         if(this.readyState == "4" && this.status == "200"){
             alert("Uploaded")
+            window.location.href = "http://localhost:5000/generatedpage"
         }
     }
     xhr.setRequestHeader="multipart/form-data"
