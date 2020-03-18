@@ -2,9 +2,16 @@ import cv2
 from PIL import Image
 import os
 import json
+import pickle
+from . import HTMLFactory
 
+id_gen = 0
+HTML_objects = []
 
 def create_crops(img, page, coords=None):
+    
+    global id_gen
+    
     if page:
         image = cv2.imread(img)
     else:
@@ -29,19 +36,28 @@ def create_crops(img, page, coords=None):
                     os.path.dirname(__file__), '..', 'sketches', 'newimage.jpg')))
                 im1 = im.crop(advanced_coords)
                 im1.save(os.path.join(os.path.join(os.path.dirname(
-                    __file__), '..', 'samples', 'content.jpg')))
-
+                    __file__), '..', 'samples', '0.jpg')))
+                HTML_objects.append(HTMLFactory.HTMLDocument(advanced_coords,str(id_gen)))
+                id_gen += 1
                 return advanced_coords
             else:
                 im = Image.open(os.path.join(os.path.join(
-                    os.path.dirname(__file__), '..', 'samples', 'content.jpg')))
+                    os.path.dirname(__file__), '..', 'samples', '0.jpg')))
                 im1 = im.crop([advanced_coords[0], advanced_coords[1],
                                advanced_coords[2]+40, advanced_coords[3]+40])
-
+                print(advanced_coords)
                 newsize = (200, 200)
+                HTML_objects.append(HTMLFactory.HTMLElementTemplateFactory(advanced_coords,str(id_gen)))
                 im1 = im1.resize(newsize)
                 im1.save(os.path.join(os.path.join(os.path.dirname(
-                    __file__), '..', 'samples', str(x)+str(y)+'.jpg')))
+                    __file__), '..', 'samples', str(id_gen)+'.jpg')))
+                id_gen += 1
+                
+    dbfile = open(os.path.join(os.path.join(
+        os.path.dirname(__file__), '..', 'metadata', 'metadata.pkl')), 'wb')
+    pickle.dump(HTML_objects, dbfile)
+    dbfile.close()
+    
 
 
 def split_images():

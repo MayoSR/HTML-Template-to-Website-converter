@@ -13,8 +13,8 @@ from PIL import Image
 import os
 import time
 from colorama import Fore, Back, Style
+import pickle
 from . import HTMLFactory
-
 
 class SVMfactory:
 
@@ -146,9 +146,16 @@ class SVMfactory:
     def predict_images(self):
 
         file_name = []
+        HTMLobject_list = []
+        
+        fp = open(os.path.join(os.path.join(
+        os.path.dirname(__file__), '..', 'metadata', 'metadata.pkl')),"rb")
+        HTMLobject_list = pickle.load(fp)
 
+        parent = HTMLobject_list.pop(0)
+        
         for file in os.listdir("samples"):
-            if file == "content.jpg":
+            if file == "0.jpg":
                 continue
             self.image_process(os.path.join("samples", file))
             img = skimage.io.imread(os.path.join("samples", file))
@@ -157,9 +164,10 @@ class SVMfactory:
             self.samp_data.append(img_resized.flatten())
             file_name.append(file)
 
+
         fitr = 0
         for i in list(self.clf.predict(self.samp_data)):
-            HTMLFactory.build_elements(SVMfactory.mapper[i])
+            HTMLFactory.build_elements(SVMfactory.mapper[i],HTMLobject_list[fitr],parent)
             fitr += 1
 
     def save_model(self):
@@ -178,20 +186,18 @@ class SVMfactory:
             print(Fore.GREEN + "Model has been loaded")
 
 
-def make_prediction(n=3):
-    if not n:
-        print("Unable to build SVM")
-        return
+def make_prediction():
     try:
         svm = SVMfactory(True)
         svm.load_model()
-        print("Model was loaded successfully")
-        svm.predict_images()
     except:
         print("Error occured, model does not exist or is damaged. Preparing new model...")
-        svm = SVMfactory()
-        svm.test_train_split()
-        svm.train_and_fit()
-        svm.display_svm_scores()
-        svm.save_model()
-        make_prediction(n-1)
+        # svm = SVMfactory()
+        # svm.test_train_split()
+        # svm.train_and_fit()
+        # svm.display_svm_scores()
+        # svm.save_model()
+        # make_prediction()
+    
+    print("Model was loaded successfully")
+    svm.predict_images()

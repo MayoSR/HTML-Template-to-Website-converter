@@ -18,6 +18,8 @@ def get_file():
     full_filename = os.path.join(app.config['UPLOAD_FOLDER'], "newimage.jpg")
     fp = open(os.path.join("templates","content.html"),"w")
     fp.close()
+    fp = open(os.path.join("static","styles","index.css"),"w")
+    fp.close()
     latestfile.save(full_filename)
     split_images()
     make_prediction()
