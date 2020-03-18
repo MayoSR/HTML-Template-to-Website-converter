@@ -63,10 +63,10 @@ class HTMLFactory(object):
         fp.close()
 
     def set_css(self,parent):
-        self.width = str((int(self.w  - self.x1) / int(parent.w))*120) + "% !important"
+        self.width = str((int(self.w  - self.x1) / int(parent.w))*100) + "% !important"
         self.height = str(int(self.h  - self.y1))+ "px"
-        self.left = str((int(self.x1) / int(parent.w)) * 120) + "%"
-        self.top = str((int(self.y1) / int(parent.h)) * 120) + "%"
+        self.left = str((int(self.x1) / int(parent.w)) * 100) + "%"
+        self.top = str((int(self.y1) / int(parent.h)) * 100) + "%"
 
 class HTMLElementTemplateFactory:
 

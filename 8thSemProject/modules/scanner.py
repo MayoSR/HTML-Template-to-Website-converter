@@ -87,9 +87,22 @@ class Preprocessor:
                 print("Exception occured",i,img.size)
 
     
+    
     def process_images(self):
         cnt = 1
 
+        for i in os.listdir("C:\\Users\\mayan\\Desktop\\Test\\8thSemProject\\HTMLelements\\Image"):
+            col = Image.open("C:\\Users\\mayan\\Desktop\\Test\\8thSemProject\\HTMLelements\\Image\\"+i)
+            gray = col.convert('L')
+            bw = gray.point(lambda x: 0 if x<128 else 255, '1')
+            bw.save("C:\\Users\\mayan\\Desktop\\Test\\8thSemProject\\HTMLelements\\Image\\"+i)
+    
+        for i in os.listdir("C:\\Users\\mayan\\Desktop\\Test\\8thSemProject\\HTMLelements\\Input"):
+            col = Image.open("C:\\Users\\mayan\\Desktop\\Test\\8thSemProject\\HTMLelements\\Input\\"+i)
+            gray = col.convert('L')
+            bw = gray.point(lambda x: 0 if x<128 else 255, '1')
+            bw.save("C:\\Users\\mayan\\Desktop\\Test\\8thSemProject\\HTMLelements\\Input\\"+i)
+    
         for i in os.listdir("HTMLelements\\Image"):
             self.image_process(i,"Image",cnt)
             cnt+=4
