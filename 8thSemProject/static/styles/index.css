@@ -1,55 +1,55 @@
-#input1{
+#image1{
             position : absolute;
-            left : 0;
-            right : 0;
-            top : 0;
-            bottom : 0;
-            width : 0;
-            height : 0;
+            left : 30.994897959183675%;
+            right : auto;
+            top : 54.62555066079295%;
+            bottom : auto;
+            width : 51.275510204081634% !important;
+            height : auto;
             margin : 0;
             padding : 0;
         }
-#input2{
+#image2{
             position : absolute;
-            left : 0;
-            right : 0;
-            top : 0;
-            bottom : 0;
-            width : 0;
-            height : 0;
+            left : 7.015306122448979%;
+            right : auto;
+            top : 54.03817914831131%;
+            bottom : auto;
+            width : 24.617346938775512% !important;
+            height : auto;
             margin : 0;
             padding : 0;
         }
-#image3{
+#input3{
             position : absolute;
-            left : 0;
-            right : 0;
-            top : 0;
-            bottom : 0;
-            width : 0;
-            height : 0;
+            left : 8.16326530612245%;
+            right : auto;
+            top : 40.969162995594715%;
+            bottom : auto; 
+            width : 51.02040816326531% !important;
+            height : auto;
             margin : 0;
             padding : 0;
         }
-#image4{
+#input4{
             position : absolute;
-            left : 0;
-            right : 0;
-            top : 0;
-            bottom : 0;
-            width : 0;
-            height : 0;
+            left : 7.142857142857142%;
+            right : auto;
+            top : 22.90748898678414%;
+            bottom : auto; 
+            width : 49.744897959183675% !important;
+            height : auto;
             margin : 0;
             padding : 0;
         }
-#image5{
+#input5{
             position : absolute;
-            left : 0;
-            right : 0;
-            top : 0;
-            bottom : 0;
-            width : 0;
-            height : 0;
+            left : 2.933673469387755%;
+            right : auto;
+            top : 6.901615271659324%;
+            bottom : auto; 
+            width : 48.5969387755102% !important;
+            height : auto;
             margin : 0;
             padding : 0;
         }

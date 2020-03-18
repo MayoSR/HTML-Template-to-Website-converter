@@ -11,12 +11,13 @@ class HTMLFactory(object):
         self.margin = 0
         self.padding = 0
         self.position = "absolute"
-        self.left = 0
-        self.right = 0
-        self.top = 0
-        self.bottom = 0
-        self.width = 0
-        self.height = 0
+        self.left = "auto"
+        self.right = "auto"
+        self.top = "auto"
+        self.bottom = "auto"
+        self.width = "auto"
+        self.height = "auto"
+        self.document = None
 
     def set_margin(self, margin):
         self.margin = margin
@@ -47,6 +48,10 @@ class HTMLFactory(object):
     def html_template(self):
         pass
     
+    @abc.abstractmethod
+    def css_template(self):
+        pass
+    
     def render_HTML_template(self):
         fp = open(os.path.abspath(os.path.join(os.path.dirname(
             __file__), '..', 'templates', 'content.html')), "a+")
@@ -57,30 +62,32 @@ class HTMLFactory(object):
         fp.write(self.css_template())
         fp.close()
 
+    def set_css(self,parent):
+        self.width = str((int(self.x2 - self.x1) / int(parent.w))*100) + "% !important"
+        #self.height = str(int(self.y2 - self.y1))+ "px"
+        self.left = str((int(self.x1) / int(parent.w)) * 100) + "%"
+        self.top = str((int(self.y1) / int(parent.h)) * 100) + "%"
 
 class HTMLElementTemplateFactory:
 
     def __init__(self, coords,id):
         self.id = id
         self.coords = coords
-
+        
     def cast_to_image(self,HTMLid,className,parent):
-        return HTMLInput(HTMLid,className,self.coords,self.id,parent)
+        return HTMLImage(HTMLid,className,self.coords,self.id,parent)
 
     def cast_to_input(self,HTMLid,className,parent):
-        return HTMLImage(HTMLid,className,self.coords,self.id,parent)
+        return HTMLInput(HTMLid,className,self.coords,self.id,parent)
     
     
-
-
 class HTMLDocument(HTMLFactory):
 
-    parent_height = None
-    parent_width = None
-
     def __init__(self, coords, id):
-
         self.id = id
+        self.x1, self.y1, self.w, self.h = coords
+        self.x2 = self.x1+self.w
+        self.y2 = self.y1+self.h
         HTMLFactory.__init__(self,coords)
 
 
@@ -91,17 +98,17 @@ class HTMLInput(HTMLFactory):
         self.id = id
         self.HTMLid = HTMLid
         self.className = className
-        self.document = parent
         
         HTMLFactory.__init__(self, coords)
+        self.set_css(parent)
+
 
     def html_template(self):
         return '''
-                <div class="'''+ self.className +'''">
-                    <label class="col-form-label" for="inputDefault">Default input</label>
-                    <input type="text"  id="'''+ self.HTMLid +'''"   class="form-control" placeholder="Default input">
+                <div class="'''+ self.className +'''" >
+                    <input type="text"   id="input'''+ self.HTMLid +'''"  class="form-control" placeholder="Default input">
                 </div>
-                '''.format(self.className,self.id)
+                '''
                 
     def css_template(self):
         #return "#{}\{ position : {}; left : {}; right : {}; top : {}; bottom : {}; width : {}; height : {}; margin : {}; padding : {} \}".format(self.HTMLid,self.position,self.left,self.right,self.top,self.bottom,self.width,self.height,self.margin,self.padding)
@@ -110,7 +117,7 @@ class HTMLInput(HTMLFactory):
             left : {self.left};
             right : {self.right};
             top : {self.top};
-            bottom : {self.bottom};
+            bottom : {self.bottom}; 
             width : {self.width};
             height : {self.height};
             margin : {self.margin};
@@ -124,14 +131,15 @@ class HTMLImage(HTMLFactory):
         self.id = id
         self.HTMLid = HTMLid
         self.className = className
-        self.document = parent
         
         HTMLFactory.__init__(self, coords)
+        self.set_css(parent)
+        
 
     def html_template(self):
         return '''
                 <div class="container">
-                    <img class="'''+ self.className +'''" src={{ url_for('static', filename = 'images/placeholder.png') }} id="'''+ self.HTMLid +'''" >
+                    <img class="'''+ self.className +'''" src={{ url_for('static', filename = 'images/placeholder.png') }} id="image'''+ self.HTMLid +'''" >
                 </div>
                 '''
 
