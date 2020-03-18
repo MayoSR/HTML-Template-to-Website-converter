@@ -6,6 +6,14 @@ app = Flask(__name__, static_url_path='')
 
 app.config['UPLOAD_FOLDER'] = 'sketches'
 
+def server_reset():
+    fp = open(os.path.join("templates","content.html"),"w")
+    fp.close()
+    fp = open(os.path.join("static","styles","index.css"),"w")
+    fp.close()
+    for i in os.listdir(os.path.join(os.path.dirname(__file__), 'samples')):
+        os.remove(os.path.join(os.path.join(os.path.dirname(__file__), 'samples'),i))
+        
 
 @app.route('/')
 def root():
@@ -16,10 +24,6 @@ def root():
 def get_file():
     latestfile = request.files['uploaded-file']
     full_filename = os.path.join(app.config['UPLOAD_FOLDER'], "newimage.jpg")
-    fp = open(os.path.join("templates","content.html"),"w")
-    fp.close()
-    fp = open(os.path.join("static","styles","index.css"),"w")
-    fp.close()
     latestfile.save(full_filename)
     split_images()
     make_prediction()
@@ -33,4 +37,5 @@ def get_page():
 
 
 if __name__ == "__main__":
+    server_reset()
     app.run(debug=True)

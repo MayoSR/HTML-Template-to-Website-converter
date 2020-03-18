@@ -57,7 +57,7 @@ def create_crops(img, page, coords=None):
         os.path.dirname(__file__), '..', 'metadata', 'metadata.pkl')), 'wb')
     pickle.dump(HTML_objects, dbfile)
     dbfile.close()
-    
+    id_gen = 0
 
 
 def split_images():
