@@ -1,0 +1,231 @@
+<html>
+	<head>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+	<!-- jQuery library -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+	<!-- Latest compiled JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+	<link href="https://fonts.googleapis.com/css?family=Oswald&display=swap" rel="stylesheet">
+	
+	<!-- <link rel="stylesheet" href="{{ url_for('static', filename = 'styles/index.css') }}"> -->
+		<style>
+
+			body{
+				font-family: 'Oswald', sans-serif;
+				color:#eeeeee;
+			}
+
+			.nopadding{
+				margin:0px !important;
+				padding:0px !important
+			}
+			
+			#main-container{
+				display: flex;
+				width:100%;
+				height:100%;
+			}
+
+			#left-bar{
+				flex:0.15;
+				border-right:1px solid black;
+				background:#393e46;
+			}
+
+			#right-bar{
+				flex:0.85;
+				display: flex;
+				flex-direction: column;
+				background-color: #393e46;
+			}
+
+			#inner-right{
+				display: flex;
+				justify-content: space-between;
+				height:100%;
+				width:100%;
+				padding:50px;
+				padding-top:0px;
+			}
+
+			.header-bar{
+				margin-bottom:40px;
+				border-bottom:1px solid rgba(0,0,0,0.4);
+				background:#222831;
+				color:white;
+			}
+
+
+			#gen-frame{
+				height:100%;
+				width:100%;
+			}
+
+			.file-overlay{
+				position: relative;
+			}
+
+			#cf{
+				position: absolute;
+				top:10px;
+				left:0px;
+				z-index:2;
+				width:150px;
+				display: block;
+				pointer-events: none;
+			}
+
+			#file-btn{
+				position: absolute;
+				top:10px;
+				left:2px;
+				box-sizing: border-box;
+				
+				width:150px;
+				display: block;
+			}
+
+			#previewframe{
+				position: relative;
+				top:108px;
+				width:150px;
+				display: block;
+				
+			}
+
+			#sbt{
+				width:150px;
+				margin-top:25px;
+				display: block;
+			}
+
+			#down-btn{
+				width:150px;
+				margin-top:68px;
+				display: block;
+			}
+
+			#body-bar{
+				display: flex;
+				justify-content: center;
+				align-items: center;
+			}
+
+			#image-preview{
+				width:35%;
+				height:100%;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				background: #222831;
+				color:#eeeeee;
+			}
+
+			#image-preview img{
+				height:100%;
+				border:1px solid rgba(0,0,0,0.4);
+			}
+
+			#arrow-box{
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				font-size:96px;
+				color:#eeeeee;
+			}
+
+			#super-frame{
+				border:1px solid rgba(0,0,0,0.4);
+				position: relative;
+				background:#222831;
+				width:35%;
+			}
+
+			#iframe-container-overlay{
+				position: absolute;
+				top:0px;
+				left:0px;
+				right:0px;
+				bottom:0px;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				z-index:2;
+				background:#222831;
+			}
+
+			.btn-primary{
+				background:#222831;
+				border:1px solid #393e46;
+				color:#00adb5;
+			}
+
+			.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open>.dropdown-toggle.btn-primary {
+				color: #00adb5;
+				background-color: #1c2027;
+				border-color: #1c2027; /*set the color you want here*/
+			}
+
+			#preview{
+				font-size:160px;
+			}
+
+		</style>
+	</head>
+	<body>
+
+		<div class="container-fluid nopadding" id="main-container">
+			<div id="left-bar">
+				<div class="header-bar" style="padding-top:20px;padding-bottom:10px;">
+					<h2 style="margin:0px" class="text-center">Menu</h2>
+				</div>
+				<div id="body-bar">
+					<form action="/sendfile" method="post" enctype="multipart/form-data">
+						<div id="button-tray">
+							<div class="file-overlay">
+								<button class="btn btn-primary" id="cf">Choose File</button>			
+								<input type="file" name="uploaded-file" id="file-btn">
+							</div>
+							<button class="btn btn-primary" id="previewframe">Preview</button>
+							<input id="sbt" class="btn btn-primary"  value="Convert">
+							<input id="down-btn" class="btn btn-primary"  value="Download">
+						</div>
+						
+					</form>
+				</div>
+			</div>
+			
+			<div id="right-bar">
+				<div class="header-bar">
+					<h2 class="pull-left" style="margin-left:50px;">Conversion</h2>
+				</div>
+				<div id="inner-right">
+					<div id="image-preview">
+						<p id="preview" class="glyphicon glyphicon-picture"></p> 
+					</div>
+					<div id="arrow-box">
+						<span class="glyphicon glyphicon-menu-right"></span>
+						<span class="glyphicon glyphicon-menu-right"></span>
+						<span class="glyphicon glyphicon-menu-right"></span>
+					</div>
+					<div id="super-frame">
+						<div id="iframe-container-overlay">
+							<p id="preview" class="glyphicon glyphicon-download-alt"></p> 
+						</div>
+						<div id="iframe-container-under">
+							<iframe frameborder="0" id="gen-frame" src="{{url_for('static', filename='sample.html')}}"></iframe>
+						</div>
+					</div>
+					
+				</div>
+
+			</div>
+		</div>
+		
+
+		<script src="{{ url_for('static', filename = 'scripts/index.js') }}"></script>
+	</body>
+</html>
