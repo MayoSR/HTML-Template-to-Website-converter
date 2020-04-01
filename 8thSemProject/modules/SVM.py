@@ -18,7 +18,7 @@ from . import HTMLFactory
 
 class SVMfactory:
 
-    mapper = {0:"Checkbox",1:"Image",2:"Input"}
+    mapper = {0:"Button",1:"Checkbox",2:"Image",3:"Input"}
 
     def __init__(self, loading=False, img_dir=os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'HTMLElements'))):
 
@@ -167,6 +167,7 @@ class SVMfactory:
 
         fitr = 0
         for i in list(self.clf.predict(self.samp_data)):
+            print(SVMfactory.mapper[i])
             HTMLFactory.build_elements(SVMfactory.mapper[i],HTMLobject_list[fitr],parent)
             fitr += 1
 

@@ -83,6 +83,9 @@ class HTMLElementTemplateFactory:
     def cast_to_checkbox(self,HTMLid,className,parent):
         return HTMLCheckBox(HTMLid,className,self.coords,self.id,parent)
     
+    def cast_to_button(self,HTMLid,className,parent):
+        return HTMLButton(HTMLid,className,self.coords,self.id,parent)
+    
     
 class HTMLDocument(HTMLFactory):
 
@@ -193,6 +196,39 @@ class HTMLCheckBox(HTMLFactory):
             padding : {self.padding};
         }}\n'''
 
+class HTMLButton(HTMLFactory):
+
+    def __init__(self,HTMLid,className,coords,id,parent):
+        
+        self.id = id
+        self.HTMLid = HTMLid
+        self.className = className
+        
+        HTMLFactory.__init__(self, coords)
+        self.set_css(parent)
+
+
+    def html_template(self):
+        return '''
+                <div class="'''+ self.className +'''" >
+                    <input type="button"   id="input'''+ self.HTMLid +'''"  class="form-control" value="Button">
+                </div>
+                '''
+                
+    def css_template(self):
+        #return "#{}\{ position : {}; left : {}; right : {}; top : {}; bottom : {}; width : {}; height : {}; margin : {}; padding : {} \}".format(self.HTMLid,self.position,self.left,self.right,self.top,self.bottom,self.width,self.height,self.margin,self.padding)
+        return f'''#input{self.HTMLid}{{
+            position : {self.position};
+            left : {self.left};
+            right : {self.right};
+            top : {self.top};
+            bottom : {self.bottom}; 
+            width : {self.width};
+            height : {self.height};
+            margin : {self.margin};
+            padding : {self.padding};
+        }}\n'''
+
 
 def build_elements(element,cast,parent):
     if element == "Input":
@@ -203,5 +239,8 @@ def build_elements(element,cast,parent):
         htmlElement.render_HTML_template()
     elif element == "Checkbox":
         htmlElement = cast.cast_to_checkbox(cast.id,"",parent)
+        htmlElement.render_HTML_template()
+    elif element == "Button":
+        htmlElement = cast.cast_to_button(cast.id,"",parent)
         htmlElement.render_HTML_template()
         

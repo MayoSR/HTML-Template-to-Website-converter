@@ -105,10 +105,10 @@ def process_images(dir,rotation_axes):
         print(cnt)
 
 
-elements = {"Input":[False,True,False],"Image":[True,True,True],"Checkbox":[False,False,False]}
+elements = {"Input":[False,True,False],"Image":[True,True,True],"Checkbox":[False,False,False],"Button":[True,True,True]}
 
 
 for i in elements:
-    if not i in ["Checkbox","Image"]:
+    if not i in ["Checkbox","Image","Input"]:
         process_images(i,elements[i])
     
