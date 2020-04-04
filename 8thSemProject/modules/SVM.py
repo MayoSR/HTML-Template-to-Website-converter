@@ -15,10 +15,12 @@ import time
 from colorama import Fore, Back, Style
 import pickle
 from . import HTMLFactory
+import statistics
+
 
 class SVMfactory:
 
-    mapper = {0:"Button",1:"Checkbox",2:"Image",3:"Input",4:"Video"}
+    mapper = {0: "Button", 1: "Checkbox", 2: "Image", 3: "Input", 4: "Video"}
 
     def __init__(self, loading=False, img_dir=os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'HTMLElements'))):
 
@@ -148,13 +150,13 @@ class SVMfactory:
 
         file_name = []
         HTMLobject_list = []
-        
+
         fp = open(os.path.join(os.path.join(
-        os.path.dirname(__file__), '..', 'metadata', 'metadata.pkl')),"rb")
+            os.path.dirname(__file__), '..', 'metadata', 'metadata.pkl')), "rb")
         HTMLobject_list = pickle.load(fp)
 
         parent = HTMLobject_list.pop(0)
-        
+
         for file in os.listdir("samples"):
             if file == "0.jpg":
                 continue
@@ -165,28 +167,47 @@ class SVMfactory:
             self.samp_data.append(img_resized.flatten())
             file_name.append(file)
 
-
         fitr = 0
         for i in list(self.clf.predict(self.samp_data)):
             print(SVMfactory.mapper[i])
-            self.HTML_element_list.append(HTMLFactory.build_elements(SVMfactory.mapper[i],HTMLobject_list[fitr]))
+            self.HTML_element_list.append(HTMLFactory.build_elements(
+                SVMfactory.mapper[i], HTMLobject_list[fitr]))
             fitr += 1
 
-        range_blocker = [str(i) for i in sorted([((i.w-i.x1)*(i.h-i.y1)) for i in self.HTML_element_list])]
-        clusters = []
-        temp_clust = set()
-        for i in range(1,len(range_blocker)):
-            print(range_blocker[i],range_blocker[i-1],int(range_blocker[i]) - int(range_blocker[i-1]))
-            if (int(range_blocker[i]) - int(range_blocker[i-1])) < (500 * (10 ** (len(range_blocker[i]) - 4))):
-                temp_clust.add(range_blocker[i])
-                temp_clust.add(range_blocker[i-1])
-            else:
-                clusters.append(temp_clust)
-                temp_clust = set()
-        clusters.append(temp_clust)
-        print(clusters)
-        #i.set_css(parent)
-        #i.render_HTML_template()
+        # range_blocker = [((i.w-i.x1)*(i.h-i.y1), i)
+        #                         for i in self.HTML_element_list]
+        # range_blocker.sort(key=lambda x:x[0])
+        # clusters = []
+        # temp_clust = []
+        # for i in range(1, len(range_blocker)):
+        #     if (range_blocker[i][0] - range_blocker[i-1][0]) < (500 * (10 ** (len(str(range_blocker[i][0])) - 4))):
+        #         temp_clust.append(range_blocker[i])
+        #         temp_clust.append(range_blocker[i-1])
+        #     else:
+        #         temp_clust.append(range_blocker[i-1])
+        #         clusters.append(temp_clust)
+        #         temp_clust = []
+        # clusters.append(temp_clust)
+        # clusters = [i for i in clusters if len(i) > 0]
+        # clusters = [i[len(i)//2] for i in clusters]
+        
+
+
+        # for i in self.HTML_element_list:
+        #     min_diff = 100000
+        #     min_obj = None
+        #     for j in clusters:
+                
+        #         if abs(j[0] - ((i.w-i.x1)*(i.h-i.y1))) < min_diff:
+        #             min_diff = ((i.w-i.x1)*(i.h-i.y1))
+        #             min_obj = j[1]
+            
+        #     i.attach_new_coordinates(min_obj)
+                    
+        for i in self.HTML_element_list:
+            i.set_css(parent)
+            i.render_HTML_template()
+            
 
     def save_model(self):
 
@@ -216,6 +237,6 @@ def make_prediction():
         svm.display_svm_scores()
         svm.save_model()
         make_prediction()
-    
+
     print("Model was loaded successfully")
     svm.predict_images()

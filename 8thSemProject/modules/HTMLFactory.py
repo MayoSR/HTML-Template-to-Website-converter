@@ -21,6 +21,13 @@ class HTMLFactory(object):
         self.height = "auto"
         self.document = None
 
+    def attach_new_coordinates(self,obj):
+        self.w = obj.w
+        self.h = obj.h
+    
+    def view_coordinates(self):
+        return "X : %d ,  Y : %d , W : %d , H : %d " % (self.x1,self.y1,self.w,self.h)
+    
     def set_margin(self, margin):
         self.margin = margin
         
@@ -67,7 +74,7 @@ class HTMLFactory(object):
     def set_css(self,parent):
         self.width = str((int(self.w  - self.x1) / int(parent.w))*100) + "% !important"
         self.height = str(int(self.h  - self.y1))+ "px"
-        self.left = str((int(self.x1 + 50) / int(parent.w)) * 100) + "%"
+        self.left = str((int(self.x1 + 85) / int(parent.w)) * 100) + "%"
         self.top = str((int(self.y1 + 100) / int(parent.h)) * 100) + "%"
 
 class HTMLElementTemplateFactory:
@@ -89,7 +96,7 @@ class HTMLElementTemplateFactory:
         return HTMLButton(HTMLid,className,self.coords,self.id)
     
     def cast_to_video(self,HTMLid,className):
-        return HTMLVideo(HTMLid,className,self.coords,self.id)
+        return HTMLButton(HTMLid,className,self.coords,self.id)
     
     
 class HTMLDocument(HTMLFactory):
@@ -183,7 +190,7 @@ class HTMLCheckBox(HTMLFactory):
     def html_template(self):
         return '''
                 <div class="'''+ self.className +'''" >
-                    <input type="checkbox"   id="input'''+ self.HTMLid +'''"  class="form-control" placeholder="Default input">
+                    <input type="checkbox"   id="input'''+ self.HTMLid +'''" placeholder="Default input">
                 </div>
                 '''
                 
@@ -216,7 +223,7 @@ class HTMLButton(HTMLFactory):
     def html_template(self):
         return '''
                 <div class="'''+ self.className +'''" >
-                    <input type="button"   id="input'''+ self.HTMLid +'''"  class="btn btn-default" value="Button">
+                    <input type="button"   id="input'''+ self.HTMLid +'''"  class="btn btn-primary" value="Button">
                 </div>
                 '''
                 
