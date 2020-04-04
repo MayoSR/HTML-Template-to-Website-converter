@@ -18,7 +18,7 @@ from . import HTMLFactory
 
 class SVMfactory:
 
-    mapper = {0:"Button",1:"Checkbox",2:"Image",3:"Input"}
+    mapper = {0:"Button",1:"Checkbox",2:"Image",3:"Input",4:"Video"}
 
     def __init__(self, loading=False, img_dir=os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'HTMLElements'))):
 
@@ -39,6 +39,7 @@ class SVMfactory:
 
         self.dimension = (64, 64)
         self.samp_data = []
+        self.HTML_element_list = []
 
     def load_image_files(self, container_path, dimension=(64, 64)):
 
@@ -168,8 +169,24 @@ class SVMfactory:
         fitr = 0
         for i in list(self.clf.predict(self.samp_data)):
             print(SVMfactory.mapper[i])
-            HTMLFactory.build_elements(SVMfactory.mapper[i],HTMLobject_list[fitr],parent)
+            self.HTML_element_list.append(HTMLFactory.build_elements(SVMfactory.mapper[i],HTMLobject_list[fitr]))
             fitr += 1
+
+        range_blocker = [str(i) for i in sorted([((i.w-i.x1)*(i.h-i.y1)) for i in self.HTML_element_list])]
+        clusters = []
+        temp_clust = set()
+        for i in range(1,len(range_blocker)):
+            print(range_blocker[i],range_blocker[i-1],int(range_blocker[i]) - int(range_blocker[i-1]))
+            if (int(range_blocker[i]) - int(range_blocker[i-1])) < (500 * (10 ** (len(range_blocker[i]) - 4))):
+                temp_clust.add(range_blocker[i])
+                temp_clust.add(range_blocker[i-1])
+            else:
+                clusters.append(temp_clust)
+                temp_clust = set()
+        clusters.append(temp_clust)
+        print(clusters)
+        #i.set_css(parent)
+        #i.render_HTML_template()
 
     def save_model(self):
 

@@ -70,18 +70,29 @@ def image_process(name,element_type,index,rotation_axes):
     im1 = im1.resize(newsize)
     totpath = abs_path + "\\" + element_type + "\\" + element_type+"_"+str(index)+".jpg"
     im1.save(totpath)
-                        
+    
+    
     if rotation_axes[0]:
-        im1 = im1.rotate(90)
-        im1.save(abs_path + "\\" + element_type + "\\" + element_type+"_"+str(index+1)+".jpg")
+        im2 = im1.rotate(90)
+        im2.save(abs_path + "\\" + element_type + "\\" + element_type+"_"+str(index+1)+".jpg")
     
     if rotation_axes[1]:
-        im1 = im1.rotate(180)
-        im1.save(abs_path + "\\" + element_type + "\\" + element_type+"_"+str(index+2)+".jpg")
+        im3 = im1.rotate(180)
+        im3.save(abs_path + "\\" + element_type + "\\" + element_type+"_"+str(index+2)+".jpg")
     
     if rotation_axes[2]:
-        im1 = im1.rotate(270)
-        im1.save(abs_path + "\\" + element_type + "\\" + element_type+"_"+str(index+3)+".jpg")
+        im4 = im1.rotate(270)
+        im4.save(abs_path + "\\" + element_type + "\\" + element_type+"_"+str(index+3)+".jpg")
+    
+    if rotation_axes[3]:
+        im5 = im1.transpose(Image.FLIP_LEFT_RIGHT)
+        im5.save(abs_path + "\\" + element_type + "\\" + element_type+"_"+str(index+4)+".jpg")
+    
+    if rotation_axes[4]:
+        im6 = im1.transpose(Image.FLIP_TOP_BOTTOM)
+        im6.save(abs_path + "\\" + element_type + "\\" + element_type+"_"+str(index+5)+".jpg")
+    
+    
     
     os.remove(name)
     
@@ -90,7 +101,7 @@ def image_process(name,element_type,index,rotation_axes):
 
 
 def process_images(dir,rotation_axes):
-    cnt = 1
+    cnt = 2233
 
     for i in os.listdir(abs_path+dir):
         col = Image.open(abs_path+dir+"\\"+i)
@@ -101,14 +112,14 @@ def process_images(dir,rotation_axes):
 
     for i in os.listdir(abs_path+dir):
         image_process(i,dir,cnt,rotation_axes)
-        cnt+=5
+        cnt+=10
         print(cnt)
 
 
-elements = {"Input":[False,True,False],"Image":[True,True,True],"Checkbox":[False,False,False],"Button":[True,True,True]}
+elements = {"Input":[False,True,False,True,True],"Image":[True,True,True,True,True],"Checkbox":[False,False,False,False,False],"Button":[True,True,True,True,True],"Video":[False,True,False,True,True]}
 
 
 for i in elements:
-    if not i in ["Checkbox","Image","Input"]:
+    if i in ["Button"]:
         process_images(i,elements[i])
     

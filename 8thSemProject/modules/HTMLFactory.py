@@ -1,6 +1,8 @@
 import os
 import abc
 
+
+
 class HTMLFactory(object):
 
     def __init__(self, coords):
@@ -74,17 +76,20 @@ class HTMLElementTemplateFactory:
         self.id = id
         self.coords = coords
         
-    def cast_to_image(self,HTMLid,className,parent):
-        return HTMLImage(HTMLid,className,self.coords,self.id,parent)
+    def cast_to_image(self,HTMLid,className):
+        return HTMLImage(HTMLid,className,self.coords,self.id)
 
-    def cast_to_input(self,HTMLid,className,parent):
-        return HTMLInput(HTMLid,className,self.coords,self.id,parent)
+    def cast_to_input(self,HTMLid,className):
+        return HTMLInput(HTMLid,className,self.coords,self.id)
     
-    def cast_to_checkbox(self,HTMLid,className,parent):
-        return HTMLCheckBox(HTMLid,className,self.coords,self.id,parent)
+    def cast_to_checkbox(self,HTMLid,className):
+        return HTMLCheckBox(HTMLid,className,self.coords,self.id)
     
-    def cast_to_button(self,HTMLid,className,parent):
-        return HTMLButton(HTMLid,className,self.coords,self.id,parent)
+    def cast_to_button(self,HTMLid,className):
+        return HTMLButton(HTMLid,className,self.coords,self.id)
+    
+    def cast_to_video(self,HTMLid,className):
+        return HTMLVideo(HTMLid,className,self.coords,self.id)
     
     
 class HTMLDocument(HTMLFactory):
@@ -99,14 +104,14 @@ class HTMLDocument(HTMLFactory):
 
 class HTMLInput(HTMLFactory):
 
-    def __init__(self,HTMLid,className,coords,id,parent):
+    def __init__(self,HTMLid,className,coords,id):
         
         self.id = id
         self.HTMLid = HTMLid
         self.className = className
         
         HTMLFactory.__init__(self, coords)
-        self.set_css(parent)
+        
 
 
     def html_template(self):
@@ -133,13 +138,13 @@ class HTMLInput(HTMLFactory):
 
 class HTMLImage(HTMLFactory):
 
-    def __init__(self,HTMLid,className,coords,id,parent):
+    def __init__(self,HTMLid,className,coords,id):
         self.id = id
         self.HTMLid = HTMLid
         self.className = className
         
         HTMLFactory.__init__(self, coords)
-        self.set_css(parent)
+        
         
 
     def html_template(self):
@@ -165,14 +170,14 @@ class HTMLImage(HTMLFactory):
         
 class HTMLCheckBox(HTMLFactory):
 
-    def __init__(self,HTMLid,className,coords,id,parent):
+    def __init__(self,HTMLid,className,coords,id):
         
         self.id = id
         self.HTMLid = HTMLid
         self.className = className
         
         HTMLFactory.__init__(self, coords)
-        self.set_css(parent)
+        
 
 
     def html_template(self):
@@ -198,20 +203,55 @@ class HTMLCheckBox(HTMLFactory):
 
 class HTMLButton(HTMLFactory):
 
-    def __init__(self,HTMLid,className,coords,id,parent):
+    def __init__(self,HTMLid,className,coords,id):
         
         self.id = id
         self.HTMLid = HTMLid
         self.className = className
         
         HTMLFactory.__init__(self, coords)
-        self.set_css(parent)
+        
 
 
     def html_template(self):
         return '''
                 <div class="'''+ self.className +'''" >
-                    <input type="button"   id="input'''+ self.HTMLid +'''"  class="form-control" value="Button">
+                    <input type="button"   id="input'''+ self.HTMLid +'''"  class="btn btn-default" value="Button">
+                </div>
+                '''
+                
+    def css_template(self):
+        #return "#{}\{ position : {}; left : {}; right : {}; top : {}; bottom : {}; width : {}; height : {}; margin : {}; padding : {} \}".format(self.HTMLid,self.position,self.left,self.right,self.top,self.bottom,self.width,self.height,self.margin,self.padding)
+        return f'''#input{self.HTMLid}{{
+            position : {self.position};
+            left : {self.left};
+            right : {self.right};
+            top : {self.top};
+            bottom : {self.bottom}; 
+            width : {self.width};
+            height : {self.height};
+            margin : {self.margin};
+            padding : {self.padding};
+        }}\n'''
+
+class HTMLVideo(HTMLFactory):
+
+    def __init__(self,HTMLid,className,coords,id):
+        
+        self.id = id
+        self.HTMLid = HTMLid
+        self.className = className
+        
+        HTMLFactory.__init__(self, coords)
+        
+
+
+    def html_template(self):
+        return '''
+                <div class="'''+ self.className +'''" >
+                    <iframe
+                        src="https://www.youtube.com/embed/tgbNymZ7vqY?playlist=tgbNymZ7vqY&loop=1">
+                    </iframe>
                 </div>
                 '''
                 
@@ -230,17 +270,15 @@ class HTMLButton(HTMLFactory):
         }}\n'''
 
 
-def build_elements(element,cast,parent):
+def build_elements(element,cast):
+    
     if element == "Input":
-        htmlElement = cast.cast_to_input(cast.id,"form-group",parent)
-        htmlElement.render_HTML_template()
+        return cast.cast_to_input(cast.id,"form-group")
     elif element == "Image":
-        htmlElement = cast.cast_to_image(cast.id,"",parent)
-        htmlElement.render_HTML_template()
+        return cast.cast_to_image(cast.id,"")
     elif element == "Checkbox":
-        htmlElement = cast.cast_to_checkbox(cast.id,"",parent)
-        htmlElement.render_HTML_template()
+        return cast.cast_to_checkbox(cast.id,"")
     elif element == "Button":
-        htmlElement = cast.cast_to_button(cast.id,"",parent)
-        htmlElement.render_HTML_template()
-        
+        return cast.cast_to_button(cast.id,"")
+    elif element == "Video":
+        return cast.cast_to_video(cast.id,"")
