@@ -12,8 +12,19 @@
         <link rel="stylesheet" href="{{ url_for('static',filename='styles/index.css') }}">
         <link href="https://stackpath.bootstrapcdn.com/bootswatch/4.4.1/lumen/bootstrap.min.css" rel="stylesheet" integrity="sha384-715VMUUaOfZR3/rWXZJ9agJ/udwSXGEigabzUbJm2NR4/v5wpDy8c14yedZN6NL7" crossorigin="anonymous">
         <style>
-
+            #main-container{
+                position: absolute;
+                top:0px;
+                left:0px;
+                right:0px;
+                bottom:0px;
+                width:100%;
+                height: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
         </style>
     </head>
     <body>
-        <div class="container-fluid">
+        <div id="main-container">

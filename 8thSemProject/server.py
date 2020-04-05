@@ -31,7 +31,7 @@ def get_file():
     
     split_images()
     make_prediction()
-    
+        
     return 'File uploaded successfully'
 
 

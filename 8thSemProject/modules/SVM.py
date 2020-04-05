@@ -173,38 +173,69 @@ class SVMfactory:
             self.HTML_element_list.append(HTMLFactory.build_elements(
                 SVMfactory.mapper[i], HTMLobject_list[fitr]))
             fitr += 1
-
-        # range_blocker = [((i.w-i.x1)*(i.h-i.y1), i)
-        #                         for i in self.HTML_element_list]
-        # range_blocker.sort(key=lambda x:x[0])
-        # clusters = []
-        # temp_clust = []
-        # for i in range(1, len(range_blocker)):
-        #     if (range_blocker[i][0] - range_blocker[i-1][0]) < (500 * (10 ** (len(str(range_blocker[i][0])) - 4))):
-        #         temp_clust.append(range_blocker[i])
-        #         temp_clust.append(range_blocker[i-1])
-        #     else:
-        #         temp_clust.append(range_blocker[i-1])
-        #         clusters.append(temp_clust)
-        #         temp_clust = []
-        # clusters.append(temp_clust)
-        # clusters = [i for i in clusters if len(i) > 0]
-        # clusters = [i[len(i)//2] for i in clusters]
         
+        self.render_setup(parent)
 
-
-        # for i in self.HTML_element_list:
-        #     min_diff = 100000
-        #     min_obj = None
-        #     for j in clusters:
-                
-        #         if abs(j[0] - ((i.w-i.x1)*(i.h-i.y1))) < min_diff:
-        #             min_diff = ((i.w-i.x1)*(i.h-i.y1))
-        #             min_obj = j[1]
+    def render_setup(self,parent):
+        range_blocker = [((i.w-i.x1), i)
+                                for i in self.HTML_element_list]
+        
+        range_blocker.sort(key=lambda x:x[0])
+        clusters = []
+        temp_clust = []
+        for i in range(1, len(range_blocker)):
+            if (range_blocker[i][0] - range_blocker[i-1][0]) < 100:
+                temp_clust.append(range_blocker[i])
+                temp_clust.append(range_blocker[i-1])
+            else:
+                clusters.append(temp_clust)
+                temp_clust = []
+                temp_clust.append(range_blocker[i])
+        
+        clusters.append(temp_clust)
+        clusters = [i for i in clusters if len(i) > 0]
+        clusters = [i[0] for i in clusters]
+        cnt = 0
+        for i in self.HTML_element_list:
             
-        #     i.attach_new_coordinates(min_obj)
+            min_diff = 100000
+            min_w = None
+            for j in clusters:
+                if abs(j[0] - (i.w-i.x1)) < min_diff:
+                    min_diff = abs(j[0] - (i.w-i.x1))
+                    min_w = j[0]
+            cnt += 1
+            i.attach_new_width(min_w)
+            
+        range_blocker = [((i.top_offset), i)
+                                for i in self.HTML_element_list]
+        range_blocker.sort(key=lambda x:x[0])
+        clusters = []
+        temp_clust = []
+        for i in range(1, len(range_blocker)):
+            if (range_blocker[i][0] - range_blocker[i-1][0]) < 20:
+                temp_clust.append(range_blocker[i])
+                temp_clust.append(range_blocker[i-1])
+            else:
+                clusters.append(temp_clust)
+                temp_clust = []
+                temp_clust.append(range_blocker[i])
+        
+        clusters.append(temp_clust)
+        clusters = [i for i in clusters if len(i) > 0]
+        clusters = [i[0] for i in clusters]
+        for i in self.HTML_element_list:
+            min_diff = 100000
+            min_obj = None
+            for j in clusters:
+                if abs(j[0] - (i.top_offset)) < min_diff:
+                    min_diff = abs(j[0] - (i.top_offset))
+                    min_obj = j[1]
+            i.attach_new_top(min_obj)
+            
                     
         for i in self.HTML_element_list:
+            # print(i.view_coordinates())
             i.set_css(parent)
             i.render_HTML_template()
             

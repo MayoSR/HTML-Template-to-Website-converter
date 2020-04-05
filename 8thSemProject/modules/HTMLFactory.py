@@ -5,11 +5,15 @@ import abc
 
 class HTMLFactory(object):
 
+    prev_left = None
+    prev_top = None
+    
     def __init__(self, coords):
 
         self.x1, self.y1, self.w, self.h = coords
         self.x2 = self.x1+self.w
         self.y2 = self.y1+self.h
+        self.top_offset = self.y1
         self.margin = 0
         self.padding = 0
         self.position = "absolute"
@@ -21,12 +25,14 @@ class HTMLFactory(object):
         self.height = "auto"
         self.document = None
 
-    def attach_new_coordinates(self,obj):
-        self.w = obj.w
-        self.h = obj.h
+    def attach_new_width(self,obj):
+        self.w = obj
+        
+    def attach_new_top(self,obj):
+        self.top_offset = obj.top_offset
     
     def view_coordinates(self):
-        return "X : %d ,  Y : %d , W : %d , H : %d " % (self.x1,self.y1,self.w,self.h)
+        return "W : %d" % (self.w)
     
     def set_margin(self, margin):
         self.margin = margin
@@ -72,10 +78,10 @@ class HTMLFactory(object):
         fp.close()
 
     def set_css(self,parent):
-        self.width = str((int(self.w  - self.x1) / int(parent.w))*100) + "% !important"
-        self.height = str(int(self.h  - self.y1))+ "px"
-        self.left = str((int(self.x1 + 85) / int(parent.w)) * 100) + "%"
-        self.top = str((int(self.y1 + 100) / int(parent.h)) * 100) + "%"
+        self.width = str(int((int(self.w) / int(parent.w))*100) - 3) + "% !important"
+        self.height = str(int(((int(self.h - self.y1) / int(parent.h))*100)) - 2)+ "% !important"
+        self.left = str(int((int(self.x1) / (int(parent.w)) )* 100)) + "%"
+        self.top = str(int((int(self.top_offset) / int(parent.h)) * 100) + 8) + "%"
 
 class HTMLElementTemplateFactory:
 
