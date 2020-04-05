@@ -176,6 +176,9 @@ class SVMfactory:
         
         self.render_setup(parent)
 
+    def fix_new_position(self,direction):
+        pass
+    
     def render_setup(self,parent):
         range_blocker = [((i.w-i.x1), i)
                                 for i in self.HTML_element_list]
@@ -184,7 +187,7 @@ class SVMfactory:
         clusters = []
         temp_clust = []
         for i in range(1, len(range_blocker)):
-            if (range_blocker[i][0] - range_blocker[i-1][0]) < 100:
+            if (range_blocker[i][0] - range_blocker[i-1][0]) < 50:
                 temp_clust.append(range_blocker[i])
                 temp_clust.append(range_blocker[i-1])
             else:
@@ -232,6 +235,33 @@ class SVMfactory:
                     min_diff = abs(j[0] - (i.top_offset))
                     min_obj = j[1]
             i.attach_new_top(min_obj)
+            
+        
+        range_blocker = [((i.x1), i)
+                                for i in self.HTML_element_list]
+        range_blocker.sort(key=lambda x:x[0])
+        clusters = []
+        temp_clust = []
+        for i in range(1, len(range_blocker)):
+            if (range_blocker[i][0] - range_blocker[i-1][0]) < 50:
+                temp_clust.append(range_blocker[i])
+                temp_clust.append(range_blocker[i-1])
+            else:
+                clusters.append(temp_clust)
+                temp_clust = []
+                temp_clust.append(range_blocker[i])
+        
+        clusters.append(temp_clust)
+        clusters = [i for i in clusters if len(i) > 0]
+        clusters = [i[0] for i in clusters]
+        for i in self.HTML_element_list:
+            min_diff = 100000
+            min_obj = None
+            for j in clusters:
+                if abs(j[0] - (i.x1)) < min_diff:
+                    min_diff = abs(j[0] - (i.x1))
+                    min_obj = j[1]
+            i.attach_new_left(min_obj)
             
                     
         for i in self.HTML_element_list:

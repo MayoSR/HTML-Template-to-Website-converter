@@ -31,6 +31,9 @@ class HTMLFactory(object):
     def attach_new_top(self,obj):
         self.top_offset = obj.top_offset
     
+    def attach_new_left(self,obj):
+        self.x1 = obj.x1
+    
     def view_coordinates(self):
         return "W : %d" % (self.w)
     
@@ -73,14 +76,14 @@ class HTMLFactory(object):
         fp.write(self.html_template())
         fp.close()
         fp = open(os.path.abspath(os.path.join(os.path.dirname(
-            __file__), '..','static', 'styles', 'index.css')), "a+")
+            __file__), '..','static', 'styles',     'index.css')), "a+")
         fp.write(self.css_template())
         fp.close()
 
     def set_css(self,parent):
         self.width = str(int((int(self.w) / int(parent.w))*100) - 3) + "% !important"
         self.height = str(int(((int(self.h - self.y1) / int(parent.h))*100)) - 2)+ "% !important"
-        self.left = str(int((int(self.x1) / (int(parent.w)) )* 100)) + "%"
+        self.left = str(int((int(self.x1) / (int(parent.w)) )* 100) + 10) + "%"
         self.top = str(int((int(self.top_offset) / int(parent.h)) * 100) + 8) + "%"
 
 class HTMLElementTemplateFactory:
