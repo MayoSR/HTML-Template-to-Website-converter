@@ -1,6 +1,11 @@
 
 
         </div>
-        <script async defer></script>
+        <script >
+            document.body.addEventListener("load",()=>{
+                console.log("Cache refresh")
+                window.location.reload(true)
+            },false)
+        </script>
     </body>
 </html>

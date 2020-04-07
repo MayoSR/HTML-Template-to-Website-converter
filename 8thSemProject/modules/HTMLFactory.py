@@ -9,7 +9,8 @@ class HTMLFactory(object):
     prev_top = None
     
     def __init__(self, coords):
-
+        
+        self.name = None
         self.x1, self.y1, self.w, self.h = coords
         self.x2 = self.x1+self.w
         self.y2 = self.y1+self.h
@@ -25,8 +26,11 @@ class HTMLFactory(object):
         self.height = "auto"
         self.document = None
 
-    def attach_new_width(self,obj):
-        self.w = obj
+    def attach_new_width(self,width):
+        self.w = width
+        
+    def attach_new_height(self,height):
+        self.h = height
         
     def attach_new_top(self,obj):
         self.top_offset = obj.top_offset
@@ -82,30 +86,31 @@ class HTMLFactory(object):
 
     def set_css(self,parent):
         self.width = str(int((int(self.w) / int(parent.w))*100) - 3) + "% !important"
-        self.height = str(int(((int(self.h - self.y1) / int(parent.h))*100)) - 2)+ "% !important"
+        self.height = str(int(((int(self.h) / int(parent.h))*100)) - 2)+ "% !important"
         self.left = str(int((int(self.x1) / (int(parent.w)) )* 100) + 10) + "%"
         self.top = str(int((int(self.top_offset) / int(parent.h)) * 100) + 8) + "%"
 
 class HTMLElementTemplateFactory:
 
-    def __init__(self, coords,id):
+    def __init__(self, name, coords,id):
+        self.name = name
         self.id = id
         self.coords = coords
         
     def cast_to_image(self,HTMLid,className):
-        return HTMLImage(HTMLid,className,self.coords,self.id)
+        return HTMLImage(HTMLid,className,self.coords,self.id,self.name)
 
     def cast_to_input(self,HTMLid,className):
-        return HTMLInput(HTMLid,className,self.coords,self.id)
+        return HTMLInput(HTMLid,className,self.coords,self.id,self.name)
     
     def cast_to_checkbox(self,HTMLid,className):
-        return HTMLCheckBox(HTMLid,className,self.coords,self.id)
+        return HTMLCheckBox(HTMLid,className,self.coords,self.id,self.name)
     
     def cast_to_button(self,HTMLid,className):
-        return HTMLButton(HTMLid,className,self.coords,self.id)
+        return HTMLButton(HTMLid,className,self.coords,self.id,self.name)
     
     def cast_to_video(self,HTMLid,className):
-        return HTMLButton(HTMLid,className,self.coords,self.id)
+        return HTMLButton(HTMLid,className,self.coords,self.id,self.name)
     
     
 class HTMLDocument(HTMLFactory):
@@ -120,12 +125,12 @@ class HTMLDocument(HTMLFactory):
 
 class HTMLInput(HTMLFactory):
 
-    def __init__(self,HTMLid,className,coords,id):
+    def __init__(self,HTMLid,className,coords,id,name):
         
         self.id = id
         self.HTMLid = HTMLid
         self.className = className
-        
+        self.name = name
         HTMLFactory.__init__(self, coords)
         
 
@@ -154,7 +159,8 @@ class HTMLInput(HTMLFactory):
 
 class HTMLImage(HTMLFactory):
 
-    def __init__(self,HTMLid,className,coords,id):
+    def __init__(self,HTMLid,className,coords,id,name):
+        self.name = name
         self.id = id
         self.HTMLid = HTMLid
         self.className = className
@@ -186,8 +192,8 @@ class HTMLImage(HTMLFactory):
         
 class HTMLCheckBox(HTMLFactory):
 
-    def __init__(self,HTMLid,className,coords,id):
-        
+    def __init__(self,HTMLid,className,coords,id,name):
+        self.name = name
         self.id = id
         self.HTMLid = HTMLid
         self.className = className
@@ -219,8 +225,8 @@ class HTMLCheckBox(HTMLFactory):
 
 class HTMLButton(HTMLFactory):
 
-    def __init__(self,HTMLid,className,coords,id):
-        
+    def __init__(self,HTMLid,className,coords,id,name):
+        self.name = name
         self.id = id
         self.HTMLid = HTMLid
         self.className = className
@@ -252,8 +258,8 @@ class HTMLButton(HTMLFactory):
 
 class HTMLVideo(HTMLFactory):
 
-    def __init__(self,HTMLid,className,coords,id):
-        
+    def __init__(self,HTMLid,className,coords,id,name):
+        self.name = name
         self.id = id
         self.HTMLid = HTMLid
         self.className = className

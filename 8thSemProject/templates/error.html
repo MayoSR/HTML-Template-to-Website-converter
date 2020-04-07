@@ -11,9 +11,6 @@
 	<link href="https://stackpath.bootstrapcdn.com/bootswatch/4.4.1/lumen/bootstrap.min.css" rel="stylesheet"
 		integrity="sha384-715VMUUaOfZR3/rWXZJ9agJ/udwSXGEigabzUbJm2NR4/v5wpDy8c14yedZN6NL7" crossorigin="anonymous">
 	<link href="https://fonts.googleapis.com/css?family=Oswald&display=swap" rel="stylesheet">
-	<meta http-Equiv="Cache-Control" Content="no-cache" />
-    <meta http-Equiv="Pragma" Content="no-cache" />
-    <meta http-Equiv="Expires" Content="0" />
 
 	<!-- <link rel="stylesheet" href="{{ url_for('static', filename = 'styles/index.css') }}"> -->
 	<style>
@@ -35,11 +32,6 @@
 		}
 
 		#cf{
-			position: absolute;
-			left:35px;
-			right:0px;
-			height:34px;
-			width:170px;
 			font-size:12px;
 			pointer-events: none;
 		}
@@ -94,7 +86,7 @@
 								<button class="btn btn-primary" id="cf">Choose File</button>			
 								<input type="file" name="uploaded-file" id="file-btn">
 							</div>
-							<input class="btn btn-primary" id="previewframe" value="Preview">
+							<button class="btn btn-primary" id="previewframe">Preview</button>
 							<input id="sbt" class="btn btn-primary"  value="Convert">
 							<input id="down-btn" class="btn btn-primary"  value="Download">
 						</div>

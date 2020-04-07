@@ -7,7 +7,6 @@ document.getElementById('file-btn').onchange = function(evt) {
         var fr = new FileReader();
 
         fr.onload = function() {
-            document.getElementById("preview").src = fr.result;
             $("#cf").text("File selected!").removeClass("btn-primary").addClass("btn-success")
         }
         fr.readAsDataURL(files[0]);
@@ -27,8 +26,7 @@ document.getElementById("sbt").addEventListener("click",(e)=>{
     var xhr = new XMLHttpRequest()
     xhr.onreadystatechange = function(){
         if(this.readyState == "4" && this.status == "200"){
-            alert("Uploaded")
-            window.location.href = "http://localhost:5000/generatedpage"
+            document.getElementById("rendered-page").src = "http://localhost:5000/generatedpage"
         }
     }
     xhr.setRequestHeader="multipart/form-data"
