@@ -1,8 +1,9 @@
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, jsonify
 from modules.objectdetection import split_images
 from modules.SVM import make_prediction
 import os
 from PIL import Image
+import json
 
 app = Flask(__name__, static_url_path='')
 
@@ -13,6 +14,8 @@ def server_reset():
     fp.close()
     fp = open(os.path.join("static","styles","index.css"),"w")
     fp.close()
+    fp = open(os.path.join("metadata","element_structure.json"),"w")
+    fp.close()
     for i in os.listdir(os.path.join(os.path.dirname(__file__), 'samples')):
         os.remove(os.path.join(os.path.join(os.path.dirname(__file__), 'samples'),i))
         
@@ -21,6 +24,16 @@ def server_reset():
 def root():
     return render_template('index.html')
 
+@app.route('/getcss', methods=['GET'])
+def get_css():
+    with open(os.path.join("metadata","element_structure.json"), 'r') as f:
+        print(type(f))
+        return json.load(f)
+            
+@app.route('/modify', methods=['GET'])
+def modify_css():
+    print(request.get_json())
+    return "Making changes"
 
 @app.route('/sendfile', methods=['POST'])
 def get_file():

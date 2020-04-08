@@ -16,11 +16,12 @@ from colorama import Fore, Back, Style
 import pickle
 from . import HTMLFactory
 import statistics
-
+import json
 
 class SVMfactory:
 
     mapper = {0: "Button", 1: "Checkbox", 2: "Image", 3: "Input", 4: "Video"}
+    JSON_dict = {}
 
     def __init__(self, loading=False, img_dir=os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'HTMLElements'))):
 
@@ -247,6 +248,13 @@ class SVMfactory:
             elif direction == "left":
                 i.attach_new_left(min_obj)
 
+    def write_as_json(self):
+        
+        with open(os.path.abspath(os.path.join(os.path.dirname(
+            __file__), '..', 'metadata', 'element_structure.json')), 'w') as f:
+            json.dump(SVMfactory.JSON_dict, f)
+        
+    
     def render_setup(self, parent):
 
         self.fix_new_position("width", 50)
@@ -256,7 +264,10 @@ class SVMfactory:
 
         for i in self.HTML_element_list:
             i.set_css(parent)
+            SVMfactory.JSON_dict.update(i.json_rep())
             i.render_HTML_template()
+
+        self.write_as_json()
 
     def save_model(self):
 

@@ -8,8 +8,8 @@
 
 	<!-- Latest compiled JavaScript -->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-	<link href="https://stackpath.bootstrapcdn.com/bootswatch/4.4.1/lumen/bootstrap.min.css" rel="stylesheet"
-		integrity="sha384-715VMUUaOfZR3/rWXZJ9agJ/udwSXGEigabzUbJm2NR4/v5wpDy8c14yedZN6NL7" crossorigin="anonymous">
+	<!-- <link href="https://stackpath.bootstrapcdn.com/bootswatch/4.4.1/lumen/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-715VMUUaOfZR3/rWXZJ9agJ/udwSXGEigabzUbJm2NR4/v5wpDy8c14yedZN6NL7" crossorigin="anonymous"> -->
 	<link href="https://fonts.googleapis.com/css?family=Oswald&display=swap" rel="stylesheet">
 	<meta http-Equiv="Cache-Control" Content="no-cache" />
     <meta http-Equiv="Pragma" Content="no-cache" />
@@ -25,7 +25,18 @@
 		}
 
 		#right-navbar {
+			display: flex;
+			align-items: center;
+			height:100%;
 			box-shadow: -6px 3px 5px 0px rgba(0, 0, 0, 0.35);
+		}
+
+		#right-navbar input{
+			margin-bottom:20px;
+		}
+
+		#right-navbar:first-child{
+			
 		}
 
 		#file-overlay {
@@ -76,6 +87,10 @@
 			border:none;
 		}
 
+		#file-btn{
+			outline: 0;
+		}
+
 	</style>
 </head>
 
@@ -103,12 +118,41 @@
 				</div>
 			</div>
 			<div class="col-md-8">
-				<iframe id="rendered-page">
+				<iframe id="rendered-page" onload="iframeclick()">
 
 				</iframe>
 			</div>
 			<div class="col-md-2" id="right-navbar">
-
+				<div class="row">
+					<div class="col-md-12">
+						<div class="row">
+							<div class="col-md-6">
+								<p>Position</p>
+								<p>Left</p>
+								<p>Right</p>
+								<p>Top</p>
+								<p>Bottom</p>
+								<p>Width</p>
+								<p>Height</p>
+								<p>BackgroundColor</p>
+								<p>Color</p>
+							</div>
+							<div class="col-md-6">
+								<input id="position" class="form-control" placeholder="New Position">
+								<input id="left" class="form-control" placeholder="New Left">
+								<input id="right" class="form-control" placeholder="New Right">
+								<input id="top"  class="form-control" placeholder="New Top">
+								<input id="bottom"  class="form-control" placeholder="New Bottom">
+								<input id="width"  class="form-control" placeholder="New Width">
+								<input id="height"  class="form-control" placeholder="New Height">
+								<input id="backgroundColor"  class="form-control" placeholder="New BackgroundColor">
+								<input id="color"  class="form-control" placeholder="New Color">
+							</div>
+							<button class="btn btn-primary" onclick="modifyValues()">Modify</button>
+						</div>
+						
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
