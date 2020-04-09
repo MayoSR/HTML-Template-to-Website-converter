@@ -8,6 +8,7 @@ import json
 app = Flask(__name__, static_url_path='')
 
 app.config['UPLOAD_FOLDER'] = 'sketches'
+app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 
 def server_reset():
     fp = open(os.path.join("templates","content.html"),"w")
@@ -19,6 +20,22 @@ def server_reset():
     for i in os.listdir(os.path.join(os.path.dirname(__file__), 'samples')):
         os.remove(os.path.join(os.path.join(os.path.dirname(__file__), 'samples'),i))
         
+def rewrite_css(data):
+    fp = open(os.path.join("static","styles","index.css"),"r")
+    fp_content = fp.read().replace("}","} ").split()
+    fp.close()
+    reppos = -1
+    for i in enumerate(fp_content):
+        if data["ele"] in i[1] :
+            reppos = i[0]
+    ele = data["ele"]
+    del data["ele"]
+    print(reppos)
+    fp_content[reppos] = ele+json.dumps(data).replace(",",";").replace(" ","").replace('"','').replace("backgroundColor","background-color")
+    fp = open(os.path.join("static","styles","index.css"),"w")
+    fp.write("".join(fp_content))
+    fp.close()
+    
 
 @app.route('/')
 def root():
@@ -30,10 +47,11 @@ def get_css():
         print(type(f))
         return json.load(f)
             
-@app.route('/modify', methods=['GET'])
+@app.route('/modify', methods=['POST'])
 def modify_css():
-    print(request.get_json())
-    return "Making changes"
+    json_str = request.get_json()
+    rewrite_css(json_str)
+    return render_template("generatedpage.html")
 
 @app.route('/sendfile', methods=['POST'])
 def get_file():
@@ -41,10 +59,8 @@ def get_file():
     latestfile = request.files['uploaded-file']
     full_filename = os.path.join(app.config['UPLOAD_FOLDER'], "newimage.jpg")
     latestfile.save(full_filename)
-    
     split_images()
     make_prediction()
-        
     return 'File uploaded successfully'
 
 

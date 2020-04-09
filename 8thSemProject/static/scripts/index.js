@@ -1,4 +1,5 @@
 var serverData = null
+var selectedElement = null
 
 document.getElementById('file-btn').onchange = function (evt) {
     var tgt = evt.target || window.event.srcElement,
@@ -72,8 +73,8 @@ function iframeclick() {
             "backgroundColor",
             "color",
         ]
+        selectedElement = event.target.id
         ids.forEach((ele) => {
-            console.log(ele)
             document.getElementById(ele).value = serverData["#"+event.target.id][ele]
         })
     }
@@ -81,23 +82,36 @@ function iframeclick() {
 
 function modifyValues() {
     var data = {
-        "posip" : document.getElementById("pos").value,
-        "leftip" : document.getElementById("left").value,
-        "rightip" :document.getElementById("right").value,
-        "topip" : document.getElementById("top").value,
-        "bottomip" : document.getElementById("bottom").value,
-        "widthip" : document.getElementById("width").value,
-        "heightip" : document.getElementById("height").value,
-        "bgip" : document.getElementById("backgroundColor").value,
-        "colorip" : document.getElementById("color").value,
+        "ele": "#"+selectedElement,
+        "position" : document.getElementById("position").value,
+        "left" : document.getElementById("left").value,
+        "right" :document.getElementById("right").value,
+        "top" : document.getElementById("top").value,
+        "bottom" : document.getElementById("bottom").value,
+        "width" : document.getElementById("width").value,
+        "height" : document.getElementById("height").value,
+        "backgroundColor" : document.getElementById("backgroundColor").value,
+        "color" : document.getElementById("color").value,
     }
+    console.log(selectedElement)
+    document.getElementById("rendered-page").contentWindow.document.getElementById(selectedElement).style.position = document.getElementById("position").value,
+    document.getElementById("rendered-page").contentWindow.document.getElementById(selectedElement).style.left = document.getElementById("left").value,
+    document.getElementById("rendered-page").contentWindow.document.getElementById(selectedElement).style.right = document.getElementById("right").value,
+    document.getElementById("rendered-page").contentWindow.document.getElementById(selectedElement).style.top = document.getElementById("top").value,
+    document.getElementById("rendered-page").contentWindow.document.getElementById(selectedElement).style.bottom = document.getElementById("bottom").value,
+    document.getElementById("rendered-page").contentWindow.document.getElementById(selectedElement).style.width = document.getElementById("width").value,
+    document.getElementById("rendered-page").contentWindow.document.getElementById(selectedElement).style.height = document.getElementById("height").value,
+    document.getElementById("rendered-page").contentWindow.document.getElementById(selectedElement).style.backgroundColor = document.getElementById("backgroundColor").value,
+    document.getElementById("rendered-page").contentWindow.document.getElementById(selectedElement).style.color = document.getElementById("color").value,
     $.ajax({
-        url:"http://localhost:5000/",
+        url:"http://localhost:5000/modify",
+        data : JSON.stringify(data),
         contentType : "application/json",
-        data : data,
         async : true,
+        method:"POST",
         success:function(data){
             console.log("Modified")
+            document.getElementById("rendered-page").contentWindow.reload(true)
         },
         error:function(){
             alert("Error occured")

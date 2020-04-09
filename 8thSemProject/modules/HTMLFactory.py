@@ -84,14 +84,17 @@ class HTMLFactory(object):
         fp.close()
 
     def set_css(self, parent):
-        self.width = str(int((int(self.w) / int(parent.w))*100) - 3) + "% !important"
-        self.height = str(int(((int(self.h) / int(parent.h))*100)) - 2) + "% !important"
+        self.width = str(int((int(self.w) / int(parent.w))*100) - 3) + "%"
+        self.height = str(int(((int(self.h) / int(parent.h))*100)) - 2) + "%"
         self.left = str(int((int(self.x1) / (int(parent.w))) * 100) + 10) + "%"
         self.top = str(
             int((int(self.top_offset) / int(parent.h)) * 100) + 8) + "%"
 
     def get_css(self):
         return dict(self.css_template().replace(" ", "").replace("\n", "").replace("{", ":{"))
+    
+    def convert_json_to_css(self):
+        pass
 
 
 class HTMLElementTemplateFactory:
