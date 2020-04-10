@@ -41,13 +41,11 @@ document.getElementById("sbt").addEventListener("click", (e) => {
 
 function getCSSFromServer(){
 
-    console.log("Fetching CSS")
     $.ajax({
         url:"http://localhost:5000/getcss",
         async : true,
         success:function(data){
             serverData = data
-            console.log("Server data",serverData)
         },
         error:function(){
             alert("Error occured")
@@ -93,7 +91,6 @@ function modifyValues() {
         "backgroundColor" : document.getElementById("backgroundColor").value,
         "color" : document.getElementById("color").value,
     }
-    console.log(selectedElement)
     document.getElementById("rendered-page").contentWindow.document.getElementById(selectedElement).style.position = document.getElementById("position").value,
     document.getElementById("rendered-page").contentWindow.document.getElementById(selectedElement).style.left = document.getElementById("left").value,
     document.getElementById("rendered-page").contentWindow.document.getElementById(selectedElement).style.right = document.getElementById("right").value,
@@ -110,11 +107,23 @@ function modifyValues() {
         async : true,
         method:"POST",
         success:function(data){
-            console.log("Modified")
             document.getElementById("rendered-page").contentWindow.reload(true)
         },
         error:function(){
             alert("Error occured")
+        }
+    })
+    let ele = data["ele"]
+    delete data["ele"]
+    serverData[ele] = data
+}
+
+function deletePage(){
+    $.ajax({
+        url:"http://localhost:5000/delete",
+        success:function(data){
+            alert(data)
+            document.getElementById("rendered-page").src = "http://localhost:5000/generatedpage"
         }
     })
 }

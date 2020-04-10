@@ -12,13 +12,12 @@
 		integrity="sha384-715VMUUaOfZR3/rWXZJ9agJ/udwSXGEigabzUbJm2NR4/v5wpDy8c14yedZN6NL7" crossorigin="anonymous"> -->
 	<link href="https://fonts.googleapis.com/css?family=Oswald&display=swap" rel="stylesheet">
 	<meta http-Equiv="Cache-Control" Content="no-cache" />
-    <meta http-Equiv="Pragma" Content="no-cache" />
-    <meta http-Equiv="Expires" Content="0" />
+	<meta http-Equiv="Pragma" Content="no-cache" />
+	<meta http-Equiv="Expires" Content="0" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 	<!-- <link rel="stylesheet" href="{{ url_for('static', filename = 'styles/index.css') }}"> -->
 	<style>
-
-
 		#left-navbar {
 			height: 100%;
 			box-shadow: 6px 3px 5px 0px rgba(0, 0, 0, 0.35);
@@ -27,31 +26,30 @@
 		#right-navbar {
 			display: flex;
 			align-items: center;
-			height:100%;
+			height: 100%;
 			box-shadow: -6px 3px 5px 0px rgba(0, 0, 0, 0.35);
 		}
 
-		#right-navbar input{
-			margin-bottom:20px;
+		#right-navbar input,
+		#right-navbar p {
+			margin-bottom: 20px;
 		}
 
-		#right-navbar:first-child{
-			
-		}
+		#right-navbar:first-child {}
 
 		#file-overlay {
 			position: relative;
 			height: 34px;
-			
+
 		}
 
-		#cf{
+		#cf {
 			position: absolute;
-			left:35px;
-			right:0px;
-			height:34px;
-			width:170px;
-			font-size:12px;
+			left: 35px;
+			right: 0px;
+			height: 34px;
+			width: 179px;
+			font-size: 12px;
 			pointer-events: none;
 		}
 
@@ -73,24 +71,45 @@
 		#button-tray input {
 			margin-top: 20px;
 			height: 34px;
-			font-size:12px;
+			font-size: 12px;
 		}
 
-
-		#main-row{
-			height:100%;
+		#flex-container {
+			display: flex;
+			flex-direction: column;
 		}
 
-		#rendered-page{
-			width:100%;
-			height:100%;
-			border:none;
+		#main-row {
+			height: 100%;
 		}
 
-		#file-btn{
+		#rendered-page {
+			width: 100%;
+			height: 100%;
+			border: none;
+		}
+
+		#file-btn {
 			outline: 0;
 		}
 
+		.flex-row {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+
+		.flex-row * {
+			flex: 0.5;
+		}
+
+		#mod-btn {
+			width: 100%;
+		}
+
+		#btn-box {
+			margin-top: 30px;
+		}
 	</style>
 </head>
 
@@ -106,14 +125,15 @@
 					<form action="/sendfile" method="post" enctype="multipart/form-data">
 						<div id="button-tray">
 							<div class="file-overlay">
-								<button class="btn btn-primary" id="cf">Choose File</button>			
+								<button class="btn btn-primary" id="cf">Choose File</button>
 								<input type="file" name="uploaded-file" id="file-btn">
 							</div>
 							<input class="btn btn-primary" id="previewframe" value="Preview">
-							<input id="sbt" class="btn btn-primary"  value="Convert">
-							<input id="down-btn" class="btn btn-primary"  value="Download">
+							<input id="sbt" class="btn btn-primary" value="Convert">
+							<input id="down-btn" class="btn btn-primary" value="Download">
+							<input id="del-btn" class="btn btn-primary" value="Delete" onclick="deletePage()">
 						</div>
-						
+
 					</form>
 				</div>
 			</div>
@@ -123,38 +143,60 @@
 				</iframe>
 			</div>
 			<div class="col-md-2" id="right-navbar">
-				<div class="row">
-					<div class="col-md-12">
-						<div class="row">
-							<div class="col-md-6">
-								<p>Position</p>
-								<p>Left</p>
-								<p>Right</p>
-								<p>Top</p>
-								<p>Bottom</p>
-								<p>Width</p>
-								<p>Height</p>
-								<p>BackgroundColor</p>
-								<p>Color</p>
-							</div>
-							<div class="col-md-6">
-								<input id="position" class="form-control" placeholder="New Position">
-								<input id="left" class="form-control" placeholder="New Left">
-								<input id="right" class="form-control" placeholder="New Right">
-								<input id="top"  class="form-control" placeholder="New Top">
-								<input id="bottom"  class="form-control" placeholder="New Bottom">
-								<input id="width"  class="form-control" placeholder="New Width">
-								<input id="height"  class="form-control" placeholder="New Height">
-								<input id="backgroundColor"  class="form-control" placeholder="New BackgroundColor">
-								<input id="color"  class="form-control" placeholder="New Color">
-							</div>
-							<button class="btn btn-primary" onclick="modifyValues()">Modify</button>
-						</div>
-						
+
+				<div id="flex-container">
+					<div class="flex-row">
+						<p>Position</p>
+						<input id="position" class="form-control" placeholder="New Position">
+					</div>
+					<div class="flex-row">
+						<p>Left</p>
+						<input id="left" class="form-control" placeholder="New Left">
+					</div>
+
+					<div class="flex-row">
+						<p>Right</p>
+						<input id="right" class="form-control" placeholder="New Right">
+					</div>
+
+					<div class="flex-row">
+						<p>Top</p>
+						<input id="top" class="form-control" placeholder="New Top">
+					</div>
+
+					<div class="flex-row">
+						<p>Bottom</p>
+						<input id="bottom" class="form-control" placeholder="New Bottom">
+					</div>
+
+					<div class="flex-row">
+						<p>Width</p>
+						<input id="width" class="form-control" placeholder="New Width">
+					</div>
+
+					<div class="flex-row">
+						<p>Height</p>
+						<input id="height" class="form-control" placeholder="New Height">
+					</div>
+
+
+					<div class="flex-row">
+						<p>BackgroundColor</p>
+						<input id="backgroundColor" class="form-control" placeholder="New BackgroundColor">
+					</div>
+
+
+					<div class="flex-row">
+						<p>Color</p>
+						<input id="color" class="form-control" placeholder="New Color">
+					</div>
+					<div id="btn-box">
+						<button id="mod-btn" class="btn btn-primary" onclick="modifyValues()">Modify</button>
 					</div>
 				</div>
 			</div>
 		</div>
+	</div>
 	</div>
 
 

@@ -30,8 +30,13 @@ def rewrite_css(data):
             reppos = i[0]
     ele = data["ele"]
     del data["ele"]
-    print(reppos)
     fp_content[reppos] = ele+json.dumps(data).replace(",",";").replace(" ","").replace('"','').replace("backgroundColor","background-color")
+    with open(os.path.join("metadata","element_structure.json"), 'r') as f:
+        json_css = json.load(f)
+        for i in data:
+            json_css[ele][i] = data[i]
+    with open(os.path.join("metadata","element_structure.json"), 'w') as f:
+        json.dump(json_css, f)
     fp = open(os.path.join("static","styles","index.css"),"w")
     fp.write("".join(fp_content))
     fp.close()
@@ -44,7 +49,6 @@ def root():
 @app.route('/getcss', methods=['GET'])
 def get_css():
     with open(os.path.join("metadata","element_structure.json"), 'r') as f:
-        print(type(f))
         return json.load(f)
             
 @app.route('/modify', methods=['POST'])
@@ -52,6 +56,11 @@ def modify_css():
     json_str = request.get_json()
     rewrite_css(json_str)
     return render_template("generatedpage.html")
+
+@app.route('/delete', methods=['GET'])
+def delete_page():
+    server_reset()
+    return "Page was cleared"
 
 @app.route('/sendfile', methods=['POST'])
 def get_file():
