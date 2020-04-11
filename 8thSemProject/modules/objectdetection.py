@@ -9,9 +9,11 @@ id_gen = 0
 HTML_objects = []
 
 def create_crops(img, page, coords=None):
+
+    global id_gen,HTML_objects
     
-    global id_gen
     
+
     if page:
         image = cv2.imread(img)
     else:
@@ -37,7 +39,8 @@ def create_crops(img, page, coords=None):
                 im1 = im.crop(advanced_coords)
                 im1.save(os.path.join(os.path.join(os.path.dirname(
                     __file__), '..', 'samples', '0.jpg')))
-                HTML_objects.append(HTMLFactory.HTMLDocument(advanced_coords,str(id_gen)))
+                HTML_objects.append(HTMLFactory.HTMLDocument(
+                    advanced_coords, str(id_gen)))
                 id_gen += 1
                 return advanced_coords
             else:
@@ -47,27 +50,32 @@ def create_crops(img, page, coords=None):
                                advanced_coords[2]+40, advanced_coords[3]+40])
                 print(advanced_coords)
                 newsize = (200, 200)
-                HTML_objects.append(HTMLFactory.HTMLElementTemplateFactory(str(id_gen),advanced_coords,str(id_gen)))
+                HTML_objects.append(HTMLFactory.HTMLElementTemplateFactory(
+                    str(id_gen), advanced_coords, str(id_gen)))
                 im1 = im1.resize(newsize)
                 im1.save(os.path.join(os.path.join(os.path.dirname(
                     __file__), '..', 'samples', str(id_gen)+'.jpg')))
                 id_gen += 1
-                
+
     dbfile = open(os.path.join(os.path.join(
         os.path.dirname(__file__), '..', 'metadata', 'metadata.pkl')), 'wb')
     pickle.dump(HTML_objects, dbfile)
     dbfile.close()
     id_gen = 0
+    HTML_objects = []
 
 def preprocessor():
-    col = Image.open(os.path.join(os.path.join(os.path.dirname(__file__),'..', 'sketches'),"newimage.jpg"))
+    col = Image.open(os.path.join(os.path.join(
+        os.path.dirname(__file__), '..', 'sketches'), "newimage.jpg"))
     gray = col.convert('L')
-    bw = gray.point(lambda x: 0 if x<128 else 255, '1')
+    bw = gray.point(lambda x: 0 if x < 128 else 255, '1')
     # eroded = cv2.erode(bw,kernel,iterations = 1)
     # opened = cv2.morphologyEx(bw, cv2.MORPH_OPEN, kernel)
     # cv2.imwrite('eroded_image.jpg', eroded)
     # cv2.imwrite('opened_image.jpg', opened)
-    bw.save(os.path.join(os.path.join(os.path.dirname(__file__),'..','sketches'),"newimage.jpg"))
+    bw.save(os.path.join(os.path.join(os.path.dirname(
+        __file__), '..', 'sketches'), "newimage.jpg"))
+
 
 def split_images():
     preprocessor()

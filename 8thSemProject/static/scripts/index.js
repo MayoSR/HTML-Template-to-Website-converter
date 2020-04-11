@@ -39,15 +39,15 @@ document.getElementById("sbt").addEventListener("click", (e) => {
 
 }, false)
 
-function getCSSFromServer(){
+function getCSSFromServer() {
 
     $.ajax({
-        url:"http://localhost:5000/getcss",
-        async : true,
-        success:function(data){
+        url: "http://localhost:5000/getcss",
+        async: true,
+        success: function (data) {
             serverData = data
         },
-        error:function(){
+        error: function () {
             alert("Error occured")
         }
     })
@@ -73,62 +73,62 @@ function iframeclick() {
         ]
         selectedElement = event.target.id
         ids.forEach((ele) => {
-            document.getElementById(ele).value = serverData["#"+event.target.id][ele]
+            document.getElementById(ele).value = serverData["#" + event.target.id][ele]
         })
     }
 }
 
 function modifyValues() {
     var data = {
-        "ele": "#"+selectedElement,
-        "position" : document.getElementById("position").value,
-        "left" : document.getElementById("left").value,
-        "right" :document.getElementById("right").value,
-        "top" : document.getElementById("top").value,
-        "bottom" : document.getElementById("bottom").value,
-        "width" : document.getElementById("width").value,
-        "height" : document.getElementById("height").value,
-        "backgroundColor" : document.getElementById("backgroundColor").value,
-        "color" : document.getElementById("color").value,
+        "ele": "#" + selectedElement,
+        "position": document.getElementById("position").value,
+        "left": document.getElementById("left").value,
+        "right": document.getElementById("right").value,
+        "top": document.getElementById("top").value,
+        "bottom": document.getElementById("bottom").value,
+        "width": document.getElementById("width").value,
+        "height": document.getElementById("height").value,
+        "backgroundColor": document.getElementById("backgroundColor").value,
+        "color": document.getElementById("color").value,
     }
     document.getElementById("rendered-page").contentWindow.document.getElementById(selectedElement).style.position = document.getElementById("position").value,
-    document.getElementById("rendered-page").contentWindow.document.getElementById(selectedElement).style.left = document.getElementById("left").value,
-    document.getElementById("rendered-page").contentWindow.document.getElementById(selectedElement).style.right = document.getElementById("right").value,
-    document.getElementById("rendered-page").contentWindow.document.getElementById(selectedElement).style.top = document.getElementById("top").value,
-    document.getElementById("rendered-page").contentWindow.document.getElementById(selectedElement).style.bottom = document.getElementById("bottom").value,
-    document.getElementById("rendered-page").contentWindow.document.getElementById(selectedElement).style.width = document.getElementById("width").value,
-    document.getElementById("rendered-page").contentWindow.document.getElementById(selectedElement).style.height = document.getElementById("height").value,
-    document.getElementById("rendered-page").contentWindow.document.getElementById(selectedElement).style.backgroundColor = document.getElementById("backgroundColor").value,
-    document.getElementById("rendered-page").contentWindow.document.getElementById(selectedElement).style.color = document.getElementById("color").value,
-    $.ajax({
-        url:"http://localhost:5000/modify",
-        data : JSON.stringify(data),
-        contentType : "application/json",
-        async : true,
-        method:"POST",
-        success:function(data){
-            document.getElementById("rendered-page").contentWindow.reload(true)
-        },
-        error:function(){
-            alert("Error occured")
-        }
-    })
+        document.getElementById("rendered-page").contentWindow.document.getElementById(selectedElement).style.left = document.getElementById("left").value,
+        document.getElementById("rendered-page").contentWindow.document.getElementById(selectedElement).style.right = document.getElementById("right").value,
+        document.getElementById("rendered-page").contentWindow.document.getElementById(selectedElement).style.top = document.getElementById("top").value,
+        document.getElementById("rendered-page").contentWindow.document.getElementById(selectedElement).style.bottom = document.getElementById("bottom").value,
+        document.getElementById("rendered-page").contentWindow.document.getElementById(selectedElement).style.width = document.getElementById("width").value,
+        document.getElementById("rendered-page").contentWindow.document.getElementById(selectedElement).style.height = document.getElementById("height").value,
+        document.getElementById("rendered-page").contentWindow.document.getElementById(selectedElement).style.backgroundColor = document.getElementById("backgroundColor").value,
+        document.getElementById("rendered-page").contentWindow.document.getElementById(selectedElement).style.color = document.getElementById("color").value,
+        $.ajax({
+            url: "http://localhost:5000/modify",
+            data: JSON.stringify(data),
+            contentType: "application/json",
+            async: true,
+            method: "POST",
+            success: function (data) {
+                document.getElementById("rendered-page").contentWindow.reload(true)
+            },
+            error: function () {
+                alert("Error occured")
+            }
+        })
     let ele = data["ele"]
     delete data["ele"]
     serverData[ele] = data
 }
 
-function deletePage(){
+function deletePage() {
     $.ajax({
-        url:"http://localhost:5000/delete",
-        success:function(data){
+        url: "http://localhost:5000/delete",
+        success: function (data) {
             alert(data)
             document.getElementById("rendered-page").src = "http://localhost:5000/generatedpage"
         }
     })
 }
 
-$("body").ready(function(){
+$("body").ready(function () {
     console.log($("file-btn").css("width"))
-    $("#cf").css({"width":$("file-btn").css("width")})
+    $("#cf").css({ "width": $("file-btn").css("width") })
 })
