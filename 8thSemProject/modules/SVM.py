@@ -191,6 +191,7 @@ class SVMfactory:
         elif direction == "left":
             range_blocker = [((i.x1), i)
                              for i in self.HTML_element_list]
+            
         
         range_blocker.sort(key=lambda x: x[0])
         clusters = []
@@ -200,10 +201,12 @@ class SVMfactory:
                 temp_clust.append(range_blocker[i])
                 temp_clust.append(range_blocker[i-1])
             else:
-                clusters.append(temp_clust)
-                temp_clust = []
-                temp_clust.append(range_blocker[i])
-
+                if len(temp_clust) > 0:
+                    clusters.append(temp_clust)
+                    temp_clust = []
+                    temp_clust.append(range_blocker[i])
+                else:
+                    clusters.append([range_blocker[i-1]])
         clusters.append(temp_clust)
         clusters = [i for i in clusters if len(i) > 0]
         clusters = [i[0] for i in clusters]
@@ -259,8 +262,8 @@ class SVMfactory:
 
         self.fix_new_position("width", 50)
         self.fix_new_position("height", 20)
-        self.fix_new_position("top", 20)
-        self.fix_new_position("left", 50)
+        self.fix_new_position("top", 20)  
+        self.fix_new_position("left", 20)
 
         for i in self.HTML_element_list:
             i.set_css(parent)
