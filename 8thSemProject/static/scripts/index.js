@@ -127,3 +127,8 @@ function deletePage(){
         }
     })
 }
+
+$("body").ready(function(){
+    console.log($("file-btn").css("width"))
+    $("#cf").css({"width":$("file-btn").css("width")})
+})

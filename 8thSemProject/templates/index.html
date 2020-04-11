@@ -23,6 +23,10 @@
 			box-shadow: 6px 3px 5px 0px rgba(0, 0, 0, 0.35);
 		}
 
+		#left-navbar input {
+			width: 100%;
+		}
+
 		#right-navbar {
 			display: flex;
 			align-items: center;
@@ -33,6 +37,7 @@
 		#right-navbar input,
 		#right-navbar p {
 			margin-bottom: 20px;
+			width: 100%;
 		}
 
 		#right-navbar:first-child {}
@@ -40,28 +45,21 @@
 		#file-overlay {
 			position: relative;
 			height: 34px;
-
+			width: 100%;
 		}
 
 		#cf {
-			position: absolute;
-			left: 35px;
-			right: 0px;
-			height: 34px;
-			width: 179px;
-			font-size: 12px;
+			position: relative;
+			width: 100%;
+			z-index:10;
 			pointer-events: none;
 		}
 
-		#file-overlay button {
+		#file-btn {
 			position: absolute;
-			top: 0px;
-			left: 0px;
-			right: 0px;
-			bottom: 0px;
-			width: 100%;
-			height: 100%;
-
+			top:70px;
+			width: inherit;
+			color:transparent;
 		}
 
 		#button-tray {
@@ -125,13 +123,14 @@
 					<form action="/sendfile" method="post" enctype="multipart/form-data">
 						<div id="button-tray">
 							<div class="file-overlay">
-								<button class="btn btn-primary" id="cf">Choose File</button>
-								<input type="file" name="uploaded-file" id="file-btn">
+								<button class="btn btn-primary" id="cf" onclick="uploadFile()">Choose File</button>
+								<input type="file" type="button" name="uploaded-file" id="file-btn">
 							</div>
-							<input class="btn btn-primary" id="previewframe" value="Preview">
-							<input id="sbt" class="btn btn-primary" value="Convert">
-							<input id="down-btn" class="btn btn-primary" value="Download">
-							<input id="del-btn" class="btn btn-primary" value="Delete" onclick="deletePage()">
+							<input class="btn btn-primary" id="previewframe" type="button" value="Preview">
+							<input id="sbt" type="button" class="btn btn-primary" value="Convert">
+							<input id="down-btn" type="button" class="btn btn-primary" value="Download">
+							<input id="del-btn" type="button" class="btn btn-primary" value="Delete"
+								onclick="deletePage()">
 						</div>
 
 					</form>

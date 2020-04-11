@@ -15,8 +15,8 @@ class HTMLFactory(object):
         self.x2 = self.x1+self.w
         self.y2 = self.y1+self.h
         self.top_offset = self.y1
-        self.backgroundColor = "transparent"
-        self.color = "black"
+        self.backgroundColor = "auto"
+        self.color = "auto"
         self.position = "absolute"
         self.left = "auto"
         self.right = "auto"
