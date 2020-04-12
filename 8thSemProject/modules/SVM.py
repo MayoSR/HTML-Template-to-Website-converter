@@ -198,16 +198,31 @@ class SVMfactory:
         clusters = []
         temp_clust = []
         for i in range(1, len(range_blocker)):
+            if direction == "top":
+                print("Elements",range_blocker[i][0] , range_blocker[i-1][0])
             if (range_blocker[i][0] - range_blocker[i-1][0]) < threshold:
                 temp_clust.append(range_blocker[i])
                 temp_clust.append(range_blocker[i-1])
+                if direction == "top":
+                    print("IF",temp_clust)
             else:
+                if direction == "top":
+                    print("ELSE",temp_clust)
                 if len(temp_clust) > 0:
-                    clusters.append(temp_clust)
+                    clusters.append(temp_clust) 
                     temp_clust = []
                     temp_clust.append(range_blocker[i])
+                    if direction == "top":
+                        print("ELSE IF",clusters,temp_clust)
                 else:
                     clusters.append([range_blocker[i-1]])
+                    temp_clust.append(range_blocker[i])
+                    if direction == "top":
+                        print("ELSE ELSE",clusters,temp_clust)
+                    
+        if direction == "top":
+            print(clusters,temp_clust)
+            
         clusters.append(temp_clust)
         clusters = [i for i in clusters if len(i) > 0]
         clusters = [i[0] for i in clusters]
@@ -244,7 +259,6 @@ class SVMfactory:
             if direction == "width":
                 i.attach_new_width(min_w)
             elif direction == "height":
-                print(cnt, min_w, (i.h-i.y1))
                 i.attach_new_height(min_w)
             elif direction == "top":
                 i.attach_new_top(min_obj)
@@ -261,9 +275,9 @@ class SVMfactory:
     def render_setup(self, parent):
 
         self.fix_new_position("width", 50)
-        self.fix_new_position("height", 20)
-        self.fix_new_position("top", 20)
-        self.fix_new_position("left", 20)
+        self.fix_new_position("height", 30)
+        self.fix_new_position("top", 30)
+        self.fix_new_position("left", 30)
 
         for i in self.HTML_element_list:
             i.set_css(parent)
