@@ -19,12 +19,11 @@ def create_crops(img, page, coords=None):
     else:
         image = cv2.imread(img)
         image = image[coords[1]:coords[3], coords[0]:coords[2]]
-    blur = cv2.pyrMeanShiftFiltering(image, 11, 21)
-    gray = cv2.cvtColor(blur, cv2.COLOR_BGR2GRAY)
-    thresh = cv2.threshold(
-        gray, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)[1]
-
-    cnts = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    blurred = cv2.GaussianBlur(gray, (3, 3), 0)
+    canny = cv2.Canny(blurred, 120, 255, 1)
+    
+    cnts = cv2.findContours(canny, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     cnts = cnts[0] if len(cnts) == 2 else cnts[1]
     for c in cnts:
         peri = cv2.arcLength(c, True)
