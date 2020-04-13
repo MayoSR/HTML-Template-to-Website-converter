@@ -1,16 +1,11 @@
 <html>
 
 <head>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-
-	<!-- jQuery library -->
+	<link href="https://stackpath.bootstrapcdn.com/bootswatch/4.4.1/flatly/bootstrap.min.css" rel="stylesheet" integrity="sha384-yrfSO0DBjS56u5M+SjWTyAHujrkiYVtRYh2dtB3yLQtUz3bodOeialO59u5lUCFF" crossorigin="anonymous">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-
-	<!-- Latest compiled JavaScript -->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-	<!-- <link href="https://stackpath.bootstrapcdn.com/bootswatch/4.4.1/lumen/bootstrap.min.css" rel="stylesheet"
-		integrity="sha384-715VMUUaOfZR3/rWXZJ9agJ/udwSXGEigabzUbJm2NR4/v5wpDy8c14yedZN6NL7" crossorigin="anonymous"> -->
 	<link href="https://fonts.googleapis.com/css?family=Oswald&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
 	<meta http-Equiv="Cache-Control" Content="no-cache" />
 	<meta http-Equiv="Pragma" Content="no-cache" />
 	<meta http-Equiv="Expires" Content="0" />
@@ -21,16 +16,20 @@
 		#left-navbar {
 			height: 100%;
 			box-shadow: 6px 3px 5px 0px rgba(0, 0, 0, 0.35);
+
 		}
 
-		#left-navbar input {
+		#left-navbar input, #left-navbar button {
 			width: 100%;
+			font-size: 14px !important;
 		}
 
 		#right-navbar {
 			display: flex;
+			flex-direction: column;
 			align-items: center;
 			height: 100%;
+			padding:0px 20px;
 			box-shadow: -6px 3px 5px 0px rgba(0, 0, 0, 0.35);
 		}
 
@@ -52,14 +51,13 @@
 			position: relative;
 			width: 100%;
 			z-index: 10;
-			pointer-events: none;
 		}
 
 		#file-btn {
 			position: absolute;
 			top: 70px;
 			width: inherit;
-			color: transparent;
+			opacity: 0;
 		}
 
 		#button-tray {
@@ -112,12 +110,98 @@
 		#down-btn {
 			margin-top: 8px !important;
 		}
+
+		#proj-title{
+			display: flex;
+			justify-content: center;
+		}
+
+		.navbar-brand{
+			font-size: 24px !important;
+		}
+
+		.navbar{
+			border-radius: 0px;
+		}
+
+		#underlay-iframe{
+			display: none;
+		}
+
+		#overlay-iframe{
+			background: #2C3E50;
+			flex-direction: column;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			height:100%;
+			width:100%;
+			color:white;
+			cursor: pointer;
+		}
+
+		#overlay-iframe h1{
+			margin-bottom: 60px;
+			border-bottom: 5px solid white;
+		}
+
+		#instructions-rule li{
+			margin:20px;
+			font-size:20px;
+			list-style-type: none;
+			display: flex;
+			align-items: center;
+		}
+
+		.nopadding{
+			padding:0px !important;
+		}
+
+		.material-icons{
+			margin-right:15px;
+			font-size:32px !important;
+		}
+
+		.header-bar{
+			margin-bottom:60px;
+		}
+
+		#slide-page{
+			position: absolute;
+			bottom:80px;
+			left:0px;
+			right:0px;
+			width:100%;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			animation: arrowmove 1s infinite;
+		}
+
+		@keyframes arrowmove{
+			from {bottom: 80px;}
+  			to {bottom: 60px;}
+		}
+
+
+		.open-icon{
+			cursor: pointer;
+			color:white;
+			font-size:64px !important;
+			height:10px;
+			width:10px;
+		}
+		
+
+		.header-bar{
+			color : #2C3E50;
+		}
+
 	</style>
 </head>
 
-<body>
-
-	<div class="container-fluid nopadding" id="main-container">
+<body>	
+	<div class="container-fluid" id="main-container">
 		<div class="row" id="main-row">
 			<div class="col-md-2" id="left-navbar">
 				<div class="header-bar" style="padding-top:20px;padding-bottom:10px;">
@@ -127,7 +211,7 @@
 					<div id="button-tray">
 						<form action="/sendfile" method="post" enctype="multipart/form-data">
 							<div class="file-overlay">
-								<button class="btn btn-primary" id="cf" onclick="uploadFile()">Choose File</button>
+								<button class="btn btn-primary" id="cf">Choose File</button>
 								<input type="file" type="button" name="uploaded-file" id="file-btn">
 							</div>
 							<input class="btn btn-primary" id="previewframe" type="button" value="Preview">
@@ -140,13 +224,36 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-md-8">
-				<iframe id="rendered-page" onload="iframeclick()">
+			<div class="col-md-7 nopadding" onclick="slideFrame()">
+				<div id="overlay-iframe">
+					<h1>Rules</h1>
+					<ul id="instructions-rule" class="text-center">
+						<li><span class="material-icons">done</span>Maintain enough spacing between elements</li>
+						<li><span class="material-icons">done</span>Take photos of images in a well lit environment</li>
+						<li><span class="material-icons">done</span>Keep lines as straight as possible</li>
+						<li><span class="material-icons">done</span>Draw with a pen or pencil</li>
+						<li><span class="material-icons">done</span>Do not smudge or draw over lines repeatedly</li>
+						<li><span class="material-icons">done</span>Avoid stray pen marks on the sheet</li>
+						<li><span class="material-icons">done</span>Draw on white paper, pen ink can be any color</li>
+						<li><span class="material-icons">done</span>Avoid shadows and light variations while taking photos</li>
+					</ul>
+					<div id="slide-page">
+						<span class="material-icons open-icon">keyboard_arrow_down</span>
+						<span class="material-icons open-icon">keyboard_arrow_down</span>
+						<span class="material-icons open-icon">keyboard_arrow_down</span>
+					</div>
+				</div>
+				<div id="underlay-iframe">
+					<iframe id="rendered-page" onload="iframeclick()">
 
-				</iframe>
+					</iframe>
+				</div>
+				
 			</div>
-			<div class="col-md-2" id="right-navbar">
-
+			<div class="col-md-3" id="right-navbar">
+				<div class="header-bar" style="padding-top:20px;padding-bottom:10px;">
+					<h2 style="margin:0px" class="text-center">CSS Navigation</h2>
+				</div>
 				<div id="flex-container">
 					<div class="flex-row">
 						<p>Position</p>

@@ -171,6 +171,7 @@ class SVMfactory:
             file_name.append(file)
 
         fitr = 0
+        print(self.clf.decision_function(samp_data))
         for i in list(self.clf.predict(samp_data)):
             print(SVMfactory.mapper[i])
             self.HTML_element_list.append(HTMLFactory.build_elements(
