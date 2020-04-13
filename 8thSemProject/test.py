@@ -4,7 +4,7 @@ from selenium.webdriver import Chrome
 
 driver = Chrome(executable_path='C:\Program Files (x86)\Chrome Driver\chromedriver.exe')
 
-driver.get("http://127.0.0.1:5000/")
+driver.get("localhost:5000")
 driver.title
 
 # Get all the elements available with tag name
