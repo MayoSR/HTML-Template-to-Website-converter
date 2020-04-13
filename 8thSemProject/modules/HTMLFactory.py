@@ -92,7 +92,7 @@ class HTMLFactory(object):
 
     def get_css(self):
         return dict(self.css_template().replace(" ", "").replace("\n", "").replace("{", ":{"))
-    
+
     def convert_json_to_css(self):
         pass
 
@@ -162,19 +162,19 @@ class HTMLInput(HTMLFactory):
         }}\n'''
 
     def json_rep(self):
-        return {"#input"+self.HTMLid: 
-            {
-                "position": self.position,
-                "left": self.left,
-                "right": self.right,
-                "top": self.top,
-                "bottom": self.bottom,
-                "width": self.width,
-                "height": self.height,
-                "backgroundColor": self.backgroundColor,
-                "color": self.color,
-            }
-        }
+        return {"#input"+self.HTMLid:
+                {
+                    "position": self.position,
+                    "left": self.left,
+                    "right": self.right,
+                    "top": self.top,
+                    "bottom": self.bottom,
+                    "width": self.width,
+                    "height": self.height,
+                    "backgroundColor": self.backgroundColor,
+                    "color": self.color,
+                }
+                }
 
 
 class HTMLImage(HTMLFactory):
@@ -207,21 +207,21 @@ class HTMLImage(HTMLFactory):
             background-color : {self.backgroundColor};
             color : {self.color};
         }}\n'''
-        
+
     def json_rep(self):
-        return {"#image"+self.HTMLid: 
-            {
-                "position": self.position,
-                "left": self.left,
-                "right": self.right,
-                "top": self.top,
-                "bottom": self.bottom,
-                "width": self.width,
-                "height": self.height,
-                "backgroundColor": self.backgroundColor,
-                "color": self.color,
-            }
-        }
+        return {"#image"+self.HTMLid:
+                {
+                    "position": self.position,
+                    "left": self.left,
+                    "right": self.right,
+                    "top": self.top,
+                    "bottom": self.bottom,
+                    "width": self.width,
+                    "height": self.height,
+                    "backgroundColor": self.backgroundColor,
+                    "color": self.color,
+                }
+                }
 
 
 class HTMLCheckBox(HTMLFactory):
@@ -254,21 +254,21 @@ class HTMLCheckBox(HTMLFactory):
             background-color : {self.backgroundColor};
             color : {self.color};
         }}\n'''
-        
+
     def json_rep(self):
-        return {"#checkbox"+self.HTMLid: 
-            {
-                "position": self.position,
-                "left": self.left,
-                "right": self.right,
-                "top": self.top,
-                "bottom": self.bottom,
-                "width": self.width,
-                "height": self.height,
-                "backgroundColor": self.backgroundColor,
-                "color": self.color,
-            }
-        }
+        return {"#checkbox"+self.HTMLid:
+                {
+                    "position": self.position,
+                    "left": self.left,
+                    "right": self.right,
+                    "top": self.top,
+                    "bottom": self.bottom,
+                    "width": self.width,
+                    "height": self.height,
+                    "backgroundColor": self.backgroundColor,
+                    "color": self.color,
+                }
+                }
 
 
 class HTMLButton(HTMLFactory):
@@ -301,21 +301,21 @@ class HTMLButton(HTMLFactory):
             background-color : {self.backgroundColor};
             color : {self.color};
         }}\n'''
-        
+
     def json_rep(self):
-        return {"#button"+self.HTMLid: 
-            {
-                "position": self.position,
-                "left": self.left,
-                "right": self.right,
-                "top": self.top,
-                "bottom": self.bottom,
-                "width": self.width,
-                "height": self.height,
-                "backgroundColor": self.backgroundColor,
-                "color": self.color,
-            }
-        }
+        return {"#button"+self.HTMLid:
+                {
+                    "position": self.position,
+                    "left": self.left,
+                    "right": self.right,
+                    "top": self.top,
+                    "bottom": self.bottom,
+                    "width": self.width,
+                    "height": self.height,
+                    "backgroundColor": self.backgroundColor,
+                    "color": self.color,
+                }
+                }
 
 
 class HTMLVideo(HTMLFactory):
@@ -350,21 +350,21 @@ class HTMLVideo(HTMLFactory):
             background-color : {self.backgroundColor};
             color : {self.color};
         }}\n'''
-        
+
     def json_rep(self):
-        return {"#video"+self.HTMLid: 
-            {
-                "position": self.position,
-                "left": self.left,
-                "right": self.right,
-                "top": self.top,
-                "bottom": self.bottom,
-                "width": self.width,
-                "height": self.height,
-                "backgroundColor": self.backgroundColor,
-                "color": self.color,
-            }
-        }   
+        return {"#video"+self.HTMLid:
+                {
+                    "position": self.position,
+                    "left": self.left,
+                    "right": self.right,
+                    "top": self.top,
+                    "bottom": self.bottom,
+                    "width": self.width,
+                    "height": self.height,
+                    "backgroundColor": self.backgroundColor,
+                    "color": self.color,
+                }
+                }
 
 
 def build_elements(element, cast):

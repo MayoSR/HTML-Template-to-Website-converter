@@ -18,6 +18,7 @@ from . import HTMLFactory
 import statistics
 import json
 
+
 class SVMfactory:
 
     mapper = {0: "Button", 1: "Checkbox", 2: "Image", 3: "Input", 4: "Video"}
@@ -41,7 +42,7 @@ class SVMfactory:
         self.y_pred = self.clf = None
 
         self.dimension = (64, 64)
-        self.samp_data = []
+
         self.HTML_element_list = []
 
     def load_image_files(self, container_path, dimension=(64, 64)):
@@ -151,6 +152,7 @@ class SVMfactory:
 
         file_name = []
         HTMLobject_list = []
+        samp_data = []
 
         fp = open(os.path.join(os.path.join(
             os.path.dirname(__file__), '..', 'metadata', 'metadata.pkl')), "rb")
@@ -165,11 +167,11 @@ class SVMfactory:
             img = skimage.io.imread(os.path.join("samples", file))
             img_resized = resize(img, self.dimension,
                                  anti_aliasing=True, mode='reflect')
-            self.samp_data.append(img_resized.flatten())
+            samp_data.append(img_resized.flatten())
             file_name.append(file)
 
         fitr = 0
-        for i in list(self.clf.predict(self.samp_data)):
+        for i in list(self.clf.predict(samp_data)):
             print(SVMfactory.mapper[i])
             self.HTML_element_list.append(HTMLFactory.build_elements(
                 SVMfactory.mapper[i], HTMLobject_list[fitr]))
@@ -191,7 +193,7 @@ class SVMfactory:
         elif direction == "left":
             range_blocker = [((i.x1), i)
                              for i in self.HTML_element_list]
-        
+
         range_blocker.sort(key=lambda x: x[0])
         clusters = []
         temp_clust = []
@@ -199,10 +201,17 @@ class SVMfactory:
             if (range_blocker[i][0] - range_blocker[i-1][0]) < threshold:
                 temp_clust.append(range_blocker[i])
                 temp_clust.append(range_blocker[i-1])
+
             else:
-                clusters.append(temp_clust)
-                temp_clust = []
-                temp_clust.append(range_blocker[i])
+
+                if len(temp_clust) > 0:
+                    clusters.append(temp_clust)
+                    temp_clust = []
+                    temp_clust.append(range_blocker[i])
+
+                else:
+                    clusters.append([range_blocker[i-1]])
+                    temp_clust.append(range_blocker[i])
 
         clusters.append(temp_clust)
         clusters = [i for i in clusters if len(i) > 0]
@@ -220,7 +229,7 @@ class SVMfactory:
                         min_obj = j[1]
                         min_w = j[0]
                 elif direction == "height":
-                    
+
                     if abs(j[0] - (i.h-i.y1)) < min_diff:
                         min_diff = abs(j[0] - (i.h-i.y1))
                         min_obj = j[1]
@@ -236,12 +245,10 @@ class SVMfactory:
                         min_obj = j[1]
                         min_w = j[0]
             cnt += 1
-            
 
             if direction == "width":
                 i.attach_new_width(min_w)
             elif direction == "height":
-                print(cnt,min_w,(i.h-i.y1))
                 i.attach_new_height(min_w)
             elif direction == "top":
                 i.attach_new_top(min_obj)
@@ -249,18 +256,18 @@ class SVMfactory:
                 i.attach_new_left(min_obj)
 
     def write_as_json(self):
-        
+
         with open(os.path.abspath(os.path.join(os.path.dirname(
-            __file__), '..', 'metadata', 'element_structure.json')), 'w') as f:
+                __file__), '..', 'metadata', 'element_structure.json')), 'w') as f:
             json.dump(SVMfactory.JSON_dict, f)
-        
-    
+        SVMfactory.JSON_dict = {}
+
     def render_setup(self, parent):
 
         self.fix_new_position("width", 50)
         self.fix_new_position("height", 20)
         self.fix_new_position("top", 20)
-        self.fix_new_position("left", 50)
+        self.fix_new_position("left", 20)
 
         for i in self.HTML_element_list:
             i.set_css(parent)
