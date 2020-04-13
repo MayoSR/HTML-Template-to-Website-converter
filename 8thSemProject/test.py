@@ -53,4 +53,3 @@ download.click()
 
 delete = driver.find_element_by_id('del-btn')
 delete.click()
-
