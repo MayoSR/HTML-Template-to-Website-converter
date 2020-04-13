@@ -11,8 +11,6 @@ HTML_objects = []
 def create_crops(img, page, coords=None):
 
     global id_gen,HTML_objects
-    
-    
 
     if page:
         image = cv2.imread(img)

@@ -14,6 +14,8 @@
 	<!-- <link rel="stylesheet" href="{{ url_for('static', filename = 'styles/index.css') }}"> -->
 	<style>
 		#left-navbar {
+			position: relative;
+			z-index: 2;
 			height: 100%;
 			box-shadow: 6px 3px 5px 0px rgba(0, 0, 0, 0.35);
 
@@ -35,7 +37,7 @@
 
 		#right-navbar input,
 		#right-navbar p {
-			margin-bottom: 20px;
+			margin-bottom: 10px;
 			width: 100%;
 		}
 
@@ -104,7 +106,7 @@
 		}
 
 		#btn-box {
-			margin-top: 30px;
+			margin-top: 10px;
 		}
 
 		#down-btn {
@@ -195,6 +197,7 @@
 
 		.header-bar{
 			color : #2C3E50;
+			margin-top:20px;
 		}
 
 	</style>
@@ -204,7 +207,7 @@
 	<div class="container-fluid" id="main-container">
 		<div class="row" id="main-row">
 			<div class="col-md-2" id="left-navbar">
-				<div class="header-bar" style="padding-top:20px;padding-bottom:10px;">
+				<div class="header-bar">
 					<h2 style="margin:0px" class="text-center">Menu</h2>
 				</div>
 				<div id="body-bar">
@@ -219,7 +222,7 @@
 							<input id="del-btn" type="button" class="btn btn-primary" value="Delete"
 								onclick="deletePage()">
 						</form>
-						<a href="http://localhost:5000/generatedpage" download><input id="down-btn" type="submit"
+						<a href="http://localhost:5000/download" download><input id="down-btn" type="submit"
 								class="btn btn-primary" value="Download"></a>
 					</div>
 				</div>
@@ -251,7 +254,7 @@
 				
 			</div>
 			<div class="col-md-3" id="right-navbar">
-				<div class="header-bar" style="padding-top:20px;padding-bottom:10px;">
+				<div class="header-bar">
 					<h2 style="margin:0px" class="text-center">CSS Navigation</h2>
 				</div>
 				<div id="flex-container">
