@@ -1,6 +1,19 @@
 var serverData = null
 var selectedElement = null
 
+
+$("#cf").click((e)=>{
+    e.preventDefault()
+    $("#file-btn").click()
+})
+
+function slideFrame(){
+    $("#overlay-iframe").slideUp("slow",()=>{
+        $("#overlay-iframe").hide()
+        $("#underlay-iframe").show()
+    })
+}
+
 document.getElementById('file-btn').onchange = function (evt) {
     var tgt = evt.target || window.event.srcElement,
         files = tgt.files;

@@ -1,3 +1,9 @@
+# TODO : Add labels/textbox
+# TODO : Package HTML/CSS
+# TODO : Decide removal of black/white filter
+# TODO : Test with bad images
+# TODO : Integrate Selenium
+
 from flask import Flask, request, render_template, jsonify
 from modules.objectdetection import split_images
 from modules.SVM import make_prediction
