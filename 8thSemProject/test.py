@@ -43,7 +43,6 @@ convert.click()
 # alert.accept()
 # print('deleted')
 # driver.switch_to.default_content()
-
 # upload = driver.find_element_by_id('file-btn')
 # upload.send_keys("C:\\Users\\Prerna\\Downloads\\Samples\\sample21.jpg")
 # driver.implicitly_wait(60) # seconds
@@ -82,19 +81,14 @@ print('previewed')
 driver.implicitly_wait(30) # seconds
 driver.switch_to.window(driver.window_handles[0])
 
-# driver.implicitly_wait(10) # seconds
 download = driver.find_element_by_id('down-btn')
 download.click()
 print('downloading')
-driver.implicitly_wait(60) # seconds
-print('downloaded')
 
-driver.implicitly_wait(60) # seconds
+# driver.implicitly_wait(60) # seconds
 
 # delete = driver.find_element_by_id('del-btn')
 # delete.click()
 # print('deleted')
 
-driver.implicitly_wait(60) # seconds
-print('waited')
 # driver.quit()
