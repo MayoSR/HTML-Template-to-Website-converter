@@ -1,7 +1,6 @@
 var serverData = null
 var selectedElement = null
 
-
 $("#cf").click((e)=>{
     e.preventDefault()
     $("#file-btn").click()
