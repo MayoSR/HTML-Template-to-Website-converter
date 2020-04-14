@@ -53,6 +53,7 @@ def get_file():
 
 @app.route('/generatedpage')
 def get_page():
+    download_file()
     return render_template("generatedpage.html")
 
 @app.route("/download")

@@ -15,6 +15,7 @@ function slideFrame(){
 }
 
 document.getElementById('file-btn').onchange = function (evt) {
+
     var tgt = evt.target || window.event.srcElement,
         files = tgt.files;
 
@@ -35,8 +36,22 @@ document.getElementById('file-btn').onchange = function (evt) {
     }
 }
 
+function showRules(){
+    $("#underlay-iframe").slideUp("slow",()=>{
+        $("#overlay-iframe").slideDown("slow",()=>{
+            $("#instructions-box").show()
+        })
+    })
+}
+
 document.getElementById("sbt").addEventListener("click", (e) => {
 
+    $("#instructions-box").hide()
+    $("#loader").show()
+    $("#overlay-iframe").slideDown("slow",()=>{
+        
+    })
+    
     let formData = new FormData()
     formData.append("uploaded-file", document.getElementById("file-btn").files[0]);
     var xhr = new XMLHttpRequest()
@@ -44,6 +59,10 @@ document.getElementById("sbt").addEventListener("click", (e) => {
         if (this.readyState == "4" && this.status == "200") {
             document.getElementById("rendered-page").src = "http://localhost:5000/generatedpage"
             getCSSFromServer()
+            $("#overlay-iframe").slideUp("slow",()=>{
+                $("#loader").hide()
+                $("#underlay-iframe").fadeIn("slow")
+            })
         }
     }
     xhr.setRequestHeader = "multipart/form-data"
