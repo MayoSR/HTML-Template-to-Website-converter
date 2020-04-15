@@ -84,8 +84,8 @@ class HTMLFactory(object):
         fp.close()
 
     def set_css(self, parent):
-        self.width = str(int((int(self.w) / int(parent.w))*100) - 3) + "%"
-        self.height = str(int(((int(self.h) / int(parent.h))*100)) - 2) + "%"
+        self.width = str(int((int(self.w) / int(parent.w))*100)) + "%"
+        self.height = str(int(((int(self.h) / int(parent.h))*100)) - 1) + "%"
         self.left = str(int((int(self.x1) / (int(parent.w))) * 100) + 10) + "%"
         self.top = str(
             int((int(self.top_offset) / int(parent.h)) * 100) + 8) + "%"

@@ -113,7 +113,6 @@ def process_images(dir,rotation_axes):
     for i in os.listdir(abs_path+dir):
         image_process(i,dir,cnt,rotation_axes)
         cnt+=10
-        print(cnt)
 
 
 elements = {"Input":[False,True,False,True,True],"Image":[True,True,True,True,True],"Checkbox":[False,False,False,False,False],"Button":[True,True,True,True,True],"Video":[False,True,False,True,True]}

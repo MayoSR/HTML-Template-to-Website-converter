@@ -45,7 +45,6 @@ def create_crops(img, page, coords=None):
                     os.path.dirname(__file__), '..', 'samples', '0.jpg')))
                 im1 = im.crop([advanced_coords[0], advanced_coords[1],
                                advanced_coords[2]+40, advanced_coords[3]+40])
-                print(advanced_coords)
                 newsize = (200, 200)
                 HTML_objects.append(HTMLFactory.HTMLElementTemplateFactory(
                     str(id_gen), advanced_coords, str(id_gen)))

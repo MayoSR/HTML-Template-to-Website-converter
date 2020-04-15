@@ -34,8 +34,6 @@ def modify_css():
 
 @app.route('/delete', methods=['GET'])
 def delete_page():
-    for name, value in globals().copy().items():
-        print(name, value)
     reset_header()
     server_reset()
     return "Page was cleared"
