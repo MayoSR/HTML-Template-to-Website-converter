@@ -190,7 +190,7 @@ class HTMLImage(HTMLFactory):
     def html_template(self):
         return '''
                 <div class="container">
-                    <img class="''' + self.className + '''" src={{ url_for('static', filename = 'images/placeholder.png') }} id="image''' + self.HTMLid + '''" >
+                    <img class="''' + self.className + '''" src={{ url_for('static', filename = 'images/placeholder.png') }} alt="image''' + self.HTMLid + '''" id="image''' + self.HTMLid + '''" >
                 </div>
                 '''
 
